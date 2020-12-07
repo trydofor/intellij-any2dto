@@ -1,6 +1,6 @@
-package org.jetbrains.plugins.template.services
+package com.github.trydofor.intellijsql2dto.services
 
-import org.jetbrains.plugins.template.MyBundle
+import com.github.trydofor.intellijsql2dto.MyBundle
 
 class MyApplicationService {
 
