@@ -41,14 +41,22 @@ repositories {
     mavenCentral()
     jcenter()
 }
+
 dependencies {
     detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.14.2")
+    implementation("pro.fessional", "meepo", "1.0.0") {
+        // for slf4j constraint violation linkageError StaticLoggerBinder
+        exclude("org.slf4j", "slf4j-api")
+    }
 }
 
 // Configure gradle-intellij-plugin plugin.
 // Read more: https://github.com/JetBrains/gradle-intellij-plugin
 intellij {
     pluginName = pluginName_
+    // `version` and `localPath` should not be specified at the same time.
+    // localPath can avoid slowly download
+    //    localPath = "/Applications/IntelliJ IDEA.app"
     version = platformVersion
     type = platformType
     downloadSources = platformDownloadSources.toBoolean()
@@ -110,8 +118,17 @@ tasks {
         // Get the latest available change notes from the changelog file
         changeNotes(
             closure {
-                changelog.getLatest().toHTML()
+                File("./README.md").readText().lines().run {
+                    val start = "<!-- Plugin changeNotes -->"
+                    val end = "<!-- Plugin changeNotes end -->"
+
+                    if (!containsAll(listOf(start, end))) {
+                        throw GradleException("Plugin changeNotes section not found in README.md:\n$start ... $end")
+                    }
+                    subList(indexOf(start) + 1, indexOf(end))
+                }.joinToString("\n").run { markdownToHTML(this) }
             }
+
         )
     }
 
@@ -121,7 +138,7 @@ tasks {
 
     publishPlugin {
         dependsOn("patchChangelog")
-        token(System.getenv("PUBLISH_TOKEN"))
+        token(System.getenv("INTELLIJ_PUBLISH_TOKEN"))
         // pluginVersion is based on the SemVer (https://semver.org) and supports pre-release labels, like 2.1.7-alpha.3
         // Specify pre-release label to publish the plugin in a custom Release Channel automatically. Read more:
         // https://jetbrains.org/intellij/sdk/docs/tutorials/build_system/deployment.html#specifying-a-release-channel

@@ -1,0 +1,53 @@
+# comment begins with `#`, and ignore leading white spaces
+# TYPE_NAME(PRECISION,SCALE) = JAVA_CLASS, one rule per line,
+# - TYPE_NAME are case insensitive
+# - PRECISION & SCALE are digit, `1-3` = [1,2,3], `*`= ANY
+# - (PRECISION,SCALE) should be omitted if match ANY
+# - for simple CHAR(1,*) = CHAR(1); CHAR(*) = CHAR;
+# the order is FIFO, the top matches first, stop when matched.
+
+# Numeric Data Types
+BIT = Boolean
+BOOL = Boolean
+BOOLEAN = Boolean
+TINYINT(1) = Boolean
+TINYINT = Integer
+SMALLINT = Integer
+MEDIUMINT = Integer
+INT = Integer
+INTEGER = Integer
+BIGINT = Long
+DECIMAL = java.math.BigDecimal
+DEC = java.math.BigDecimal
+FIXED = java.math.BigDecimal
+NUMERIC = java.math.BigDecimal
+FLOAT = Double
+DOUBLE = Double
+REAL = Float
+
+# Date and Time Types
+DATE = java.sql.Date
+TIME = java.sql.Time
+DATETIME = java.time.LocalDateTime
+TIMESTAMP = java.sql.Timestamp
+YEAR = Integer
+
+# String Types
+
+CHAR = String
+VARCHAR = String
+BINARY = byte[]
+VARBINARY = byte[]
+TINYBLOB = String
+TINYTEXT = String
+BLOB = String
+TEXT = String
+MEDIUMBLOB = String
+MEDIUMTEXT = String
+LONGBLOB = String
+LONGTEXT = String
+ENUM = String
+SET = String
+
+# unmapping
+* = String

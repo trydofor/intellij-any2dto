@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="com.moilioncircle.intellij.any2dto.ui.SettingComponent">
+  <grid id="27dc6" binding="pnlRoot" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+    <margin top="0" left="0" bottom="0" right="0"/>
+    <constraints>
+      <xy x="20" y="20" width="536" height="400"/>
+    </constraints>
+    <properties/>
+    <border type="none"/>
+    <children>
+      <tabbedpane id="1781c" binding="tnlTabRoot">
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+            <preferred-size width="200" height="200"/>
+          </grid>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <grid id="d00a2" binding="pnlConfig" layout-manager="GridLayoutManager" row-count="7" column-count="5" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints>
+              <tabbedpane title="Config"/>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <component id="c0c6b" class="javax.swing.JLabel" binding="lblSourcePath">
+                <constraints>
+                  <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="Source Path"/>
+                  <toolTipText value=""/>
+                </properties>
+              </component>
+              <vspacer id="a9c7f">
+                <constraints>
+                  <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                </constraints>
+              </vspacer>
+              <component id="57383" class="javax.swing.JTextField" binding="txtSourcePath">
+                <constraints>
+                  <grid row="3" column="1" row-span="1" col-span="4" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="-1"/>
+                  </grid>
+                </constraints>
+                <properties/>
+              </component>
+              <component id="55cc0" class="javax.swing.JLabel" binding="lblPackageName">
+                <constraints>
+                  <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="Package Name"/>
+                </properties>
+              </component>
+              <component id="73dd3" class="javax.swing.JTextField" binding="txtPackageName">
+                <constraints>
+                  <grid row="4" column="1" row-span="1" col-span="4" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="-1"/>
+                  </grid>
+                </constraints>
+                <properties/>
+              </component>
+              <component id="68848" class="javax.swing.JLabel" binding="lblWhereSave">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="Where to Save"/>
+                </properties>
+              </component>
+              <component id="96e02" class="javax.swing.JLabel" binding="lblWhichType">
+                <constraints>
+                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="Witch Template"/>
+                </properties>
+              </component>
+              <component id="9cf53" class="javax.swing.JRadioButton" binding="rbtClipboard">
+                <constraints>
+                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="Clipboard"/>
+                </properties>
+              </component>
+              <component id="69531" class="javax.swing.JRadioButton" binding="rbtSourcePath">
+                <constraints>
+                  <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="Source Path"/>
+                </properties>
+              </component>
+              <component id="1dc18" class="javax.swing.JRadioButton" binding="rbtInnerClass">
+                <constraints>
+                  <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="Inner Class"/>
+                </properties>
+              </component>
+              <component id="4bdf2" class="javax.swing.JRadioButton" binding="rbtOuterFile">
+                <constraints>
+                  <grid row="1" column="2" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="Outer File"/>
+                </properties>
+              </component>
+              <hspacer id="2430b">
+                <constraints>
+                  <grid row="0" column="4" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+              </hspacer>
+              <component id="e7310" class="javax.swing.JButton" binding="btnLoadDefault">
+                <constraints>
+                  <grid row="5" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="Load Default"/>
+                </properties>
+              </component>
+              <component id="7deec" class="javax.swing.JButton" binding="btnPluginHome">
+                <constraints>
+                  <grid row="5" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="Plugin Home"/>
+                </properties>
+              </component>
+              <component id="8c149" class="javax.swing.JButton" binding="btnMeepoHelp">
+                <constraints>
+                  <grid row="5" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="Template Help"/>
+                </properties>
+              </component>
+              <component id="7ebc1" class="javax.swing.JLabel" binding="lblDtoName">
+                <constraints>
+                  <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="Default Dto Name"/>
+                </properties>
+              </component>
+              <component id="4dd51" class="javax.swing.JTextField" binding="txtDtoName">
+                <constraints>
+                  <grid row="2" column="1" row-span="1" col-span="4" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="-1"/>
+                  </grid>
+                </constraints>
+                <properties/>
+              </component>
+            </children>
+          </grid>
+          <grid id="3df88" binding="pnlTypeMapping" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints>
+              <tabbedpane title="Type Mapping"/>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <component id="2a128" class="javax.swing.JTextArea" binding="txtTypeMapping">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="50"/>
+                  </grid>
+                </constraints>
+                <properties/>
+              </component>
+            </children>
+          </grid>
+          <grid id="cfc62" binding="pnlTmplInner" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints>
+              <tabbedpane title="Template Inner"/>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <component id="60b34" class="javax.swing.JTextArea" binding="txtTmplInner">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="50"/>
+                  </grid>
+                </constraints>
+                <properties/>
+              </component>
+            </children>
+          </grid>
+          <grid id="4cc3a" binding="pnlTmplOuter" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints>
+              <tabbedpane title="Template Outer"/>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <component id="484c6" class="javax.swing.JTextArea" binding="txtTmplOuter">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="50"/>
+                  </grid>
+                </constraints>
+                <properties/>
+              </component>
+            </children>
+          </grid>
+        </children>
+      </tabbedpane>
+    </children>
+  </grid>
+  <buttonGroups>
+    <group name="whereSave">
+      <member id="9cf53"/>
+      <member id="69531"/>
+    </group>
+    <group name="whichType">
+      <member id="1dc18"/>
+      <member id="4bdf2"/>
+    </group>
+  </buttonGroups>
+</form>

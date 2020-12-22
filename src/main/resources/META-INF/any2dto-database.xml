@@ -1,0 +1,7 @@
+<idea-plugin>
+    <actions resource-bundle="messages.Any2dtoBundle">
+        <action id="MoilionCircle.Any2dto.Jdbc" class="com.moilioncircle.intellij.any2dto.actions.Any2DtoActionJdbc">
+            <add-to-group group-id="MoilionCircle.Any2dtoGroup" anchor="before" relative-to-action="MoilionCircle.Any2dto.Jooq"/>
+        </action>
+    </actions>
+</idea-plugin>

@@ -1,1 +1,1 @@
-rootProject.name = "intellij-sql2dto"
+rootProject.name = "intellij-any2dto"
