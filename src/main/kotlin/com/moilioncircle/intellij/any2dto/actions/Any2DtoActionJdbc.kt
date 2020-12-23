@@ -10,6 +10,7 @@ import com.intellij.database.util.DbUtil
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.LangDataKeys
+import com.intellij.openapi.diagnostic.Logger
 import com.intellij.psi.PsiElement
 import com.moilioncircle.intellij.any2dto.helper.IdeaUiHelper
 import com.moilioncircle.intellij.any2dto.helper.MergerHelper
@@ -18,6 +19,8 @@ import com.moilioncircle.intellij.any2dto.settings.SettingsState
 
 
 class Any2DtoActionJdbc : AnAction() {
+    private val logger = Logger.getInstance(Any2DtoActionJdbc::class.java)
+
     override fun actionPerformed(e: AnActionEvent) {
         try {
             val dataGrid = e.getData(DatabaseDataKeys.DATA_GRID_KEY)
@@ -32,28 +35,13 @@ class Any2DtoActionJdbc : AnAction() {
                 return
             }
         } catch (t: Throwable) {
+            logger.error("failed to generate by jdbc", t)
             IdeaUiHelper.showError("failed to generate by jdbc", t)
         }
     }
 
     override fun update(e: AnActionEvent) {
-        // Sql Query Result
-        val dataGrid = e.getData(DatabaseDataKeys.DATA_GRID_KEY)
-        if (dataGrid != null) {
-            e.presentation.isEnabled = true
-            return
-        }
-
-        // database tool window
-        val psiElements = e.getData(LangDataKeys.PSI_ELEMENT_ARRAY)
-        if (psiElements.isNullOrEmpty()) {
-            e.presentation.isEnabled = false
-            return
-        }
-
-        // select table or column
-        val element = psiElements[0]
-        e.presentation.isEnabled = element is DbTable || element is DbColumn
+        e.presentation.isEnabled = IdeaUiHelper.jdbcAccept(e)
     }
 
     // /////////
@@ -64,7 +52,7 @@ class Any2DtoActionJdbc : AnAction() {
         for (column in grdCol) {
             sqlCol.add(ColumnInfo(column.name, column.typeName, column.precision, column.scale))
         }
-        mergeJava(sqlCol, e)
+        mergeJava(sqlCol, e, "Query Result")
     }
 
     private fun byColumn(elements: Array<PsiElement>, e: AnActionEvent) {
@@ -81,15 +69,17 @@ class Any2DtoActionJdbc : AnAction() {
                 val dt = ele.dataType
                 val el = ColumnInfo(ele.name, dt.typeName, dt.precision, dt.scale)
                 sqlCol.add(el)
+            } else {
+                logger.warn("unsupported type " + ele.text)
             }
         }
-        mergeJava(sqlCol, e)
+        mergeJava(sqlCol, e, "Table/Columns")
     }
 
-    private fun mergeJava(sqlCol: List<ColumnInfo>, e: AnActionEvent) {
+    private fun mergeJava(sqlCol: List<ColumnInfo>, e: AnActionEvent, from:String) {
         val state = SettingsState.loadSettingState()
         val project = e.getData(LangDataKeys.PROJECT)
         val fields = MergerHelper.matchFields(state, sqlCol)
-        MergerHelper.generateJava(state, fields, project)
+        MergerHelper.generateJava(state, fields, project,from)
     }
 }

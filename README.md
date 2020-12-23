@@ -36,6 +36,22 @@ In the Java Editor, select Jooq's fields to generate the strong type DTO.
 
 ![DTO java jooq](asset/usage-java-jooq.png)
 
+基于PSI的命名推导，会采用所选表达式的文本，而非运行时命名。
+The PSI-based naming derivation use the selected expression not the runtime evaluation.
+
+``` java
+SysSchemaJournal t = SysSchemaJournal.SYS_SCHEMA_JOURNAL;
+Field<Integer> count = count(t.COMMIT_ID).as("cnt");
+Field<BigDecimal> par = DSL.field("1", BigDecimal.class);
+val result = dsl.select(
+    count, // <== private Integer count;
+    par, // <== private BigDecimal par;
+    t.CREATE_DT, // <== private LocalDateTime createDt;
+    max(t.MODIFY_DT), // <== private java.time.LocalDateTime modifyDt;
+    t.TABLE_NAME.as("tn"), // <== private java.lang.String tn;
+    t.COMMIT_ID.add(t.COMMIT_ID).as(t.COMMIT_ID) // <== java.lang.Long commitId;
+)
+```
 
 ### Table/Column in Database ToolWindow
 

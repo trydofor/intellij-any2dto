@@ -104,14 +104,14 @@ object MergerHelper {
         return gene.merge(context)
     }
 
-    fun generateJava(state: SettingsState, fields: List<FieldInfo>, project: Project?) {
+    fun generateJava(state: SettingsState, fields: List<FieldInfo>, project: Project?, from: String) {
         val defaultName = state.javaDtoName
         if (state.usingClipboard) {
             val dtoName = Messages.showInputDialog(null,
-                """selected ${fields.size} columns
+                """have ${fields.size} fields
                --
                cancel to use `$defaultName` as class name""".trimIndent(),
-                "need DTO class name",
+                "need DTO class name by $from",
                 Messages.getQuestionIcon(),
                 defaultName, null) ?: defaultName
             val javaCode = mergeFields(state, fields, dtoName)
@@ -122,10 +122,10 @@ object MergerHelper {
                java source path   = ${state.javaSourcePath}
                java package name  = ${state.javaPackageName}
                --
-               selected ${fields.size} columns
+               have ${fields.size} fields
                --
                cancel to use `$defaultName` as class name""".trimIndent(),
-                "need DTO class name",
+                "need DTO class name by $from",
                 Messages.getQuestionIcon(),
                 defaultName, null) ?: defaultName
 

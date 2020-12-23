@@ -3,20 +3,30 @@ package com.moilioncircle.intellij.any2dto.actions
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.CommonDataKeys
+import com.intellij.openapi.actionSystem.LangDataKeys
+import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.ui.Messages
-import com.intellij.psi.PsiClass
 import com.intellij.psi.PsiJavaFile
 import com.intellij.psi.PsiMethodCallExpression
 import com.intellij.psi.PsiReferenceExpression
 import com.intellij.psi.util.PsiTreeUtil
-import com.intellij.psi.util.PsiTypesUtil
-import com.intellij.psi.util.PsiUtil
 import com.intellij.refactoring.suggested.endOffset
 import com.intellij.refactoring.suggested.startOffset
+import com.moilioncircle.intellij.any2dto.helper.IdeaPsiHelper
 import com.moilioncircle.intellij.any2dto.helper.IdeaUiHelper
+import com.moilioncircle.intellij.any2dto.helper.MergerHelper
+import com.moilioncircle.intellij.any2dto.helper.MergerHelper.FieldInfo
+import com.moilioncircle.intellij.any2dto.settings.SettingsState
 
 
 class Any2DtoActionJooq : AnAction() {
+
+    private val logger = Logger.getInstance(Any2DtoActionJooq::class.java)
+
+    override fun update(e: AnActionEvent) {
+        e.presentation.isEnabled = IdeaUiHelper.jooqAccept(e)
+    }
+
     override fun actionPerformed(e: AnActionEvent) {
         try {
             val editor = e.getData(CommonDataKeys.EDITOR)
@@ -35,7 +45,7 @@ class Any2DtoActionJooq : AnAction() {
             }
             val eleParent = PsiTreeUtil.findCommonParent(eleBgn, eleEnd)
             if (eleParent == null) {
-                Messages.showWarningDialog("select filed not in same expression list", "Unsupported")
+                Messages.showWarningDialog("fields not in same expression list", "Unsupported")
                 return
             }
 
@@ -49,35 +59,35 @@ class Any2DtoActionJooq : AnAction() {
                 Messages.showWarningDialog("empty Jooq's field-like expression list", "Unsupported")
                 return
             }
+
+            val project = e.getData(LangDataKeys.PROJECT)
+            val fields = ArrayList<FieldInfo>()
             for (ele in eleTgt) {
-                if (ele is PsiReferenceExpression) {
-                    val tp = ele.type!!
-                    val psiClass = PsiTypesUtil.getPsiClass(tp)
-                    val resolveClassInType = PsiUtil.resolveClassInType(tp)
-                    val containingClass = psiClass?.containingClass
-                    val ct = tp.canonicalText
-                    val parentOfType = PsiTreeUtil.getParentOfType(ele, PsiClass::class.java)
-                    val resolveClassInClassTypeOnly = PsiUtil.resolveClassInClassTypeOnly(tp)
-                    println("")
-                } else if (ele is PsiMethodCallExpression) {
-                    val mod = ele.resolveMethod()!!
-                    val tp = mod.returnType!!
-                    val resolveClassInType = PsiUtil.resolveClassInType(tp)
-                    val ct = tp.canonicalText
-                    val psiClass = PsiTypesUtil.getPsiClass(tp)
-                    val superClass = psiClass?.superClass
-                    val containingClass = mod.containingClass
-                    val resolveClassInClassTypeOnly = PsiUtil.resolveClassInClassTypeOnly(tp)
-                    println("")
+                when (ele) {
+                    is PsiReferenceExpression -> fields.add(byRefers(ele))
+                    is PsiMethodCallExpression -> fields.add(byMethod(ele))
+                    else -> logger.warn("unsupported type" + ele.text)
                 }
             }
+
+            val state = SettingsState.loadSettingState()
+            MergerHelper.generateJava(state, fields, project, "Jooq Fieldsdfg")
         } catch (t: Throwable) {
+            logger.error("failed to generate by jooq", t)
             IdeaUiHelper.showError("failed to generate by jooq", t)
         }
     }
 
-    override fun update(e: AnActionEvent) {
-        val psiFile = e.getData(CommonDataKeys.PSI_FILE)
-        e.presentation.isEnabled = psiFile is PsiJavaFile
+    // //// SelectField
+    private fun byRefers(ele: PsiReferenceExpression): FieldInfo {
+        val type = IdeaPsiHelper.inferGenericType(ele.type!!, "org.jooq.SelectField", 1)
+        val name = MergerHelper.javaFieldName(ele.canonicalText.substringAfter('.'))
+        return FieldInfo(name, type)
+    }
+
+    private fun byMethod(ele: PsiMethodCallExpression): FieldInfo {
+        val type = IdeaPsiHelper.inferGenericType(ele.type!!, "org.jooq.SelectField", 1)
+        val name = MergerHelper.javaFieldName(IdeaPsiHelper.inferMethodNaming(ele))
+        return FieldInfo(name, type)
     }
 }
