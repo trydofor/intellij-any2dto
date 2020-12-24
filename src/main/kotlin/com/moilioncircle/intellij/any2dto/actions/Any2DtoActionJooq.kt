@@ -71,7 +71,7 @@ class Any2DtoActionJooq : AnAction() {
             }
 
             val state = SettingsState.loadSettingState()
-            MergerHelper.generateJava(state, fields, project, "Jooq Fieldsdfg")
+            MergerHelper.generateJava(state, fields, project, "Jooq Fields")
         } catch (t: Throwable) {
             logger.error("failed to generate by jooq", t)
             IdeaUiHelper.showError("failed to generate by jooq", t)

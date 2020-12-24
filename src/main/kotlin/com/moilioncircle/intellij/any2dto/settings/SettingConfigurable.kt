@@ -3,21 +3,23 @@ package com.moilioncircle.intellij.any2dto.settings
 import com.intellij.ide.BrowserUtil
 import com.intellij.openapi.components.ServiceManager
 import com.intellij.openapi.options.SearchableConfigurable
+import com.intellij.openapi.project.Project
 import com.moilioncircle.intellij.any2dto.ui.SettingComponent
 import javax.swing.JComponent
 import javax.swing.event.ChangeEvent
+
 
 /**
  * @author trydofor
  * @since 2020-12-17
  */
-class SettingConfigurable : SearchableConfigurable {
+class SettingConfigurable(val project: Project) : SearchableConfigurable {
 
     var component: SettingComponent? = null
 
     override fun createComponent(): JComponent {
-        component = SettingComponent()
         val state = ServiceManager.getService(SettingsState::class.java)
+        component = SettingComponent(project, state.javaTypeMapping, state.javaTempletInner, state.javaTempletOuter)
         initComponentEvent(state)
         initStateValue(state)
         return component!!.pnlRoot
@@ -30,9 +32,13 @@ class SettingConfigurable : SearchableConfigurable {
                 || state.javaPackageName != txtPackageName.text
                 || state.javaSourcePath != txtSourcePath.text
                 || state.javaDtoName != txtDtoName.text
-                || state.javaTempletInner != txtTmplInner.text
-                || state.javaTempletOuter != txtTmplOuter.text
-                || state.javaTypeMapping != txtTypeMapping.text
+                || state.javaDtoPromote != ckbDtoPromote.isSelected
+                || state.javaTempletInner != edtTmplInner.text
+                || state.javaTempletOuter != edtTmplOuter.text
+                || state.javaTypeMapping != edtTypeMapping.text
+                || state.textLineSeparator != txtTextLineSep.text
+                || state.textLinePromote != ckbLinePromote.isSelected
+                || state.textWordSeparator != txtTextWordSep.text
     }
 
     override fun apply() = with(component!!) {
@@ -41,10 +47,14 @@ class SettingConfigurable : SearchableConfigurable {
         state.usingInnerClass = rbtInnerClass.isSelected
         state.javaPackageName = txtPackageName.text
         state.javaSourcePath = txtSourcePath.text
+        state.javaDtoPromote = ckbDtoPromote.isSelected
         state.javaDtoName = txtDtoName.text
-        state.javaTempletInner = txtTmplInner.text
-        state.javaTempletOuter = txtTmplOuter.text
-        state.javaTypeMapping = txtTypeMapping.text
+        state.javaTempletInner = edtTmplInner.text
+        state.javaTempletOuter = edtTmplOuter.text
+        state.javaTypeMapping = edtTypeMapping.text
+        state.textLineSeparator = txtTextLineSep.text
+        state.textLinePromote = ckbLinePromote.isSelected
+        state.textWordSeparator = txtTextWordSep.text
     }
 
     override fun reset() = with(component!!) {
@@ -90,8 +100,6 @@ class SettingConfigurable : SearchableConfigurable {
         rbtSourcePath.addChangeListener(whereSaveState)
         btnPluginHome.addActionListener { BrowserUtil.browse("https://github.com/trydofor/intellij-any2dto"); }
         btnMeepoHelp.addActionListener { BrowserUtil.browse("https://github.com/trydofor/pro.fessional.meepo"); }
-
-        txtSourcePath.toolTipText = "[./] means current project"
     }
 
     private fun initStateValue(state: SettingsState) = with(component!!) {
@@ -102,10 +110,10 @@ class SettingConfigurable : SearchableConfigurable {
             rbtClipboard.isSelected = false
             rbtSourcePath.isSelected = true
         }
-        if(state.usingInnerClass) {
+        if (state.usingInnerClass) {
             rbtInnerClass.isSelected = true
             rbtOuterFile.isSelected = false
-        }else{
+        } else {
             rbtInnerClass.isSelected = false
             rbtOuterFile.isSelected = true
         }
@@ -113,9 +121,13 @@ class SettingConfigurable : SearchableConfigurable {
         txtSourcePath.text = state.javaSourcePath
         txtPackageName.text = state.javaPackageName
         txtDtoName.text = state.javaDtoName
-        txtTypeMapping.text = state.javaTypeMapping
-        txtTmplInner.text = state.javaTempletInner
-        txtTmplOuter.text = state.javaTempletOuter
+        ckbDtoPromote.isSelected = state.javaDtoPromote
+        edtTypeMapping.text = state.javaTypeMapping
+//        edtTmplInner.text = state.javaTempletInner
+        edtTmplOuter.text = state.javaTempletOuter
+        txtTextLineSep.text = state.textLineSeparator
+        ckbLinePromote.isSelected = state.textLinePromote
+        txtTextWordSep.text = state.textWordSeparator
         whereSaveState(null)
     }
 }

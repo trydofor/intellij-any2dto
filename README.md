@@ -36,7 +36,7 @@ In the Java Editor, select Jooq's fields to generate the strong type DTO.
 
 ![DTO java jooq](asset/usage-java-jooq.png)
 
-基于PSI的命名推导，会采用所选表达式的文本，而非运行时命名。
+基于PSI的命名推导，会采用所选表达式的文本，而非运行时命名。  
 The PSI-based naming derivation use the selected expression not the runtime evaluation.
 
 ``` java
@@ -66,7 +66,7 @@ the sql-to-Java type-mapping, or the same name field.
 ### Column in Query Result
 
 在数据库控制台（依赖Database插件）验证业务`SELECT`是否正确，并直接为所有查询字段生成DTO。
-需要注意的是，此方法通常需要的类型绑定或字段调整。
+需要注意的是，此方法通常需要的类型绑定或字段调整。  
 In database console (need Database plugin), verify the business `SELECT` result,
 and generate DTOs directly for all query fields. Note, generally it needs
 modify the sql-to-Java type-mapping, or the same name field.
@@ -75,11 +75,12 @@ modify the sql-to-Java type-mapping, or the same name field.
 
 ### NonWord Separated Values
 
-TODO 非词分隔的文本，如CVS，TSV，相当于进行列编辑或正则替换。
+选择特点格式的文本，先以按特征字符分行，再逐行分隔成词，以末尾的两个词，可构成DTO。  
+Select formatted text, split to line by some regexp, and then split each line into words,
+take the end of the two words generate the DTO.
 
-### Configure Any2Dto in Project
+![DTO java args](asset/usage-java-args.png)
 
-TODO 为每个工程提供独立的配置
 
 ## Description
 <!-- Plugin description -->

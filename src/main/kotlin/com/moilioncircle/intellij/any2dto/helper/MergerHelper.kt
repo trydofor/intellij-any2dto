@@ -107,27 +107,35 @@ object MergerHelper {
     fun generateJava(state: SettingsState, fields: List<FieldInfo>, project: Project?, from: String) {
         val defaultName = state.javaDtoName
         if (state.usingClipboard) {
-            val dtoName = Messages.showInputDialog(null,
-                """have ${fields.size} fields
+            val dtoName = if (state.javaDtoPromote) {
+                Messages.showInputDialog(null,
+                    """have ${fields.size} fields
                --
                cancel to use `$defaultName` as class name""".trimIndent(),
-                "need DTO class name by $from",
-                Messages.getQuestionIcon(),
-                defaultName, null) ?: defaultName
+                    "need DTO class name by $from",
+                    Messages.getQuestionIcon(),
+                    defaultName, null) ?: defaultName
+            } else {
+                defaultName
+            }
             val javaCode = mergeFields(state, fields, dtoName)
             copyClipboard(javaCode, "")
         } else {
-            val dtoName = Messages.showInputDialog(null,
-                """use inner template = ${state.usingInnerClass}
+            val dtoName = if (state.javaDtoPromote) {
+                Messages.showInputDialog(null,
+                    """use inner template = ${state.usingInnerClass}
                java source path   = ${state.javaSourcePath}
                java package name  = ${state.javaPackageName}
                --
                have ${fields.size} fields
                --
                cancel to use `$defaultName` as class name""".trimIndent(),
-                "need DTO class name by $from",
-                Messages.getQuestionIcon(),
-                defaultName, null) ?: defaultName
+                    "need DTO class name by $from",
+                    Messages.getQuestionIcon(),
+                    defaultName, null) ?: defaultName
+            } else {
+                defaultName
+            }
 
             val javaCode = mergeFields(state, fields, dtoName)
 
