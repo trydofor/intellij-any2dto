@@ -107,7 +107,7 @@ object MergerHelper {
     fun generateJava(state: SettingsState, fields: List<FieldInfo>, project: Project?, from: String) {
         val defaultName = state.javaDtoName
         if (state.usingClipboard) {
-            val dtoName = if (state.javaDtoPromote) {
+            val dtoName = if (state.javaDtoPrompt) {
                 Messages.showInputDialog(null,
                     """have ${fields.size} fields
                --
@@ -121,7 +121,7 @@ object MergerHelper {
             val javaCode = mergeFields(state, fields, dtoName)
             copyClipboard(javaCode, "")
         } else {
-            val dtoName = if (state.javaDtoPromote) {
+            val dtoName = if (state.javaDtoPrompt) {
                 Messages.showInputDialog(null,
                     """use inner template = ${state.usingInnerClass}
                java source path   = ${state.javaSourcePath}

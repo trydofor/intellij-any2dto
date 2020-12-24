@@ -82,6 +82,45 @@ take the end of the two words generate the DTO.
 ![DTO java args](asset/usage-java-args.png)
 
 
+## Config/配置
+
+the configuration is project level not global,
+click `load Default` to reset the plugin default.
+
+<kbd>Preferences</kbd> > <kbd>Tools</kbd> > <kbd>Any2dto</kbd>
+
+### Config
+
+* `Where to Save` save DTO code to clipboard or java file
+* `Which Template` inner class or standard POJO file
+* `Class Name` default is `Dto`, or `prompt` every time.
+* `Source Path` when saving to java file,`.` means current project
+* `Package Name` the package name of DTO using in `Outer File`
+* `Line Separator` the RegExp to split lines in selection
+* `Word Separator` the RegExp to split words in each line
+
+### Type Mapping
+
+ comment begins with `#`, and ignore leading white spaces
+ TYPE_NAME(PRECISION,SCALE) = JAVA_CLASS, one rule per line,
+ - TYPE_NAME are case insensitive
+ - PRECISION & SCALE are digit, `1-3` = `[1,2,3]`, `*`= `ANY`
+ - (PRECISION,SCALE) should be omitted if match ANY
+ - for simple `CHAR(1,*)` = `CHAR(1)`; `CHAR(*)` = `CHAR`;
+ the order is FIFO, the top matches first, stop when matched.
+
+### Template Inner/Outer
+
+the template engine is [Meepo](https://github.com/trydofor/pro.fessional.meepo)
+that having the same syntax as the target file. there are some builtin variable,
+
+* `javaPackageName` package from `Package Name` config
+* `javaTypeImports` imports Class for `javaFields`
+* `className` the DTO name in config or prompt
+* `javaFields` DTO's fields
+  - `type` java type. eg. String
+  - `name` java name. eg. author
+
 ## Description
 <!-- Plugin description -->
 Commonly using generated Pojo to `SELECT *` is a bad practice. the better way
@@ -112,12 +151,6 @@ for more detail usage, go to [github any2dto](https://github.com/trydofor/intell
 
   Download the [latest release](https://github.com/trydofor/intellij-any2dto/releases/latest) and install it manually using
   <kbd>Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>⚙️</kbd> > <kbd>Install plugin from disk...</kbd>
-
-
-## Change Notes
-<!-- Plugin changeNotes -->
- * 1.0.0 support Jooq's Fields in Java; SQLs in DataGrid; Text & Auto at AnyWhere
-<!-- Plugin changeNotes end -->
 
 ## Moilion Product
 

@@ -32,12 +32,12 @@ class SettingConfigurable(val project: Project) : SearchableConfigurable {
                 || state.javaPackageName != txtPackageName.text
                 || state.javaSourcePath != txtSourcePath.text
                 || state.javaDtoName != txtDtoName.text
-                || state.javaDtoPromote != ckbDtoPromote.isSelected
+                || state.javaDtoPrompt != ckbDtoPrompt.isSelected
                 || state.javaTempletInner != edtTmplInner.text
                 || state.javaTempletOuter != edtTmplOuter.text
                 || state.javaTypeMapping != edtTypeMapping.text
                 || state.textLineSeparator != txtTextLineSep.text
-                || state.textLinePromote != ckbLinePromote.isSelected
+                || state.textLinePrompt != ckbLinePrompt.isSelected
                 || state.textWordSeparator != txtTextWordSep.text
     }
 
@@ -47,13 +47,13 @@ class SettingConfigurable(val project: Project) : SearchableConfigurable {
         state.usingInnerClass = rbtInnerClass.isSelected
         state.javaPackageName = txtPackageName.text
         state.javaSourcePath = txtSourcePath.text
-        state.javaDtoPromote = ckbDtoPromote.isSelected
+        state.javaDtoPrompt = ckbDtoPrompt.isSelected
         state.javaDtoName = txtDtoName.text
         state.javaTempletInner = edtTmplInner.text
         state.javaTempletOuter = edtTmplOuter.text
         state.javaTypeMapping = edtTypeMapping.text
         state.textLineSeparator = txtTextLineSep.text
-        state.textLinePromote = ckbLinePromote.isSelected
+        state.textLinePrompt = ckbLinePrompt.isSelected
         state.textWordSeparator = txtTextWordSep.text
     }
 
@@ -121,12 +121,12 @@ class SettingConfigurable(val project: Project) : SearchableConfigurable {
         txtSourcePath.text = state.javaSourcePath
         txtPackageName.text = state.javaPackageName
         txtDtoName.text = state.javaDtoName
-        ckbDtoPromote.isSelected = state.javaDtoPromote
+        ckbDtoPrompt.isSelected = state.javaDtoPrompt
         edtTypeMapping.text = state.javaTypeMapping
 //        edtTmplInner.text = state.javaTempletInner
         edtTmplOuter.text = state.javaTempletOuter
         txtTextLineSep.text = state.textLineSeparator
-        ckbLinePromote.isSelected = state.textLinePromote
+        ckbLinePrompt.isSelected = state.textLinePrompt
         txtTextWordSep.text = state.textWordSeparator
         whereSaveState(null)
     }

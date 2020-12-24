@@ -36,8 +36,8 @@ public class SettingComponent {
     public JTextField txtDtoName;
     public JTextField txtTextLineSep;
     public JTextField txtTextWordSep;
-    public JCheckBox ckbDtoPromote;
-    public JCheckBox ckbLinePromote;
+    public JCheckBox ckbDtoPrompt;
+    public JCheckBox ckbLinePrompt;
     public EditorTextField edtTypeMapping;
     public EditorTextField edtTmplInner;
     public EditorTextField edtTmplOuter;

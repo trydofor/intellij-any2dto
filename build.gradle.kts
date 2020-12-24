@@ -118,17 +118,8 @@ tasks {
         // Get the latest available change notes from the changelog file
         changeNotes(
             closure {
-                File("./README.md").readText().lines().run {
-                    val start = "<!-- Plugin changeNotes -->"
-                    val end = "<!-- Plugin changeNotes end -->"
-
-                    if (!containsAll(listOf(start, end))) {
-                        throw GradleException("Plugin changeNotes section not found in README.md:\n$start ... $end")
-                    }
-                    subList(indexOf(start) + 1, indexOf(end))
-                }.joinToString("\n").run { markdownToHTML(this) }
+                changelog.getLatest().toHTML()
             }
-
         )
     }
 

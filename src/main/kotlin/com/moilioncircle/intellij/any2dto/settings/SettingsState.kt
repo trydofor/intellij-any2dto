@@ -16,14 +16,14 @@ data class SettingsState(
     var javaSourcePath: String = defaultSrcPath,
     var javaPackageName: String = defaultPkgName,
     var javaDtoName: String = defaultDtoName,
-    var javaDtoPromote: Boolean = true,
+    var javaDtoPrompt: Boolean = true,
     var usingClipboard: Boolean = true,
     var usingInnerClass: Boolean = true,
     var javaTempletInner: String = ConfigHelper.defaultTemplateInner,
     var javaTempletOuter: String = ConfigHelper.defaultTemplateOuter,
     var javaTypeMapping: String = ConfigHelper.defaultMapping,
     var textLineSeparator: String = defaultLineSep,
-    var textLinePromote: Boolean = true,
+    var textLinePrompt: Boolean = true,
     var textWordSeparator: String = defaultWordSep,
 ) : PersistentStateComponent<SettingsState> {
 
@@ -39,14 +39,14 @@ data class SettingsState(
         javaSourcePath = defaultSrcPath
         javaPackageName = defaultPkgName
         javaDtoName = defaultDtoName
-        javaDtoPromote = true
+        javaDtoPrompt = true
         usingClipboard = true
         usingInnerClass = true
         javaTempletInner = ConfigHelper.defaultTemplateInner
         javaTempletOuter = ConfigHelper.defaultTemplateOuter
         javaTypeMapping = ConfigHelper.defaultMapping
         textLineSeparator = defaultLineSep
-        textLinePromote = true
+        textLinePrompt = true
         textWordSeparator = defaultWordSep
     }
 

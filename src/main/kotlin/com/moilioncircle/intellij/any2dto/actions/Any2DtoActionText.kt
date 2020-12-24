@@ -22,7 +22,7 @@ class Any2DtoActionText : AnAction() {
             val state = SettingsState.loadSettingState()
             val wsp = state.textWordSeparator.toRegex()
             var lines = select.split(state.textLineSeparator.toRegex()).filter { it.isNotBlank() }
-            while (state.textLinePromote && lines.size == 1) {
+            while (state.textLinePrompt && lines.size == 1) {
                 val reg =
                     Messages.showInputDialog("only one line, may need new Separator",
                         "Input line Separator Regexp",
