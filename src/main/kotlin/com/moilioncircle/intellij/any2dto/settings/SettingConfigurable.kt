@@ -39,6 +39,10 @@ class SettingConfigurable(val project: Project) : SearchableConfigurable {
                 || state.textLineSeparator != txtTextLineSep.text
                 || state.textLinePrompt != ckbLinePrompt.isSelected
                 || state.textWordSeparator != txtTextWordSep.text
+                || state.textSqlTable != txtSqlTable.text
+                || state.textSqlColumn != txtSqlColumn.text
+                || state.textSqlDsl != txtSqlDsl.text
+                || state.textDslName != txtDslName.text
     }
 
     override fun apply() = with(component!!) {
@@ -55,6 +59,10 @@ class SettingConfigurable(val project: Project) : SearchableConfigurable {
         state.textLineSeparator = txtTextLineSep.text
         state.textLinePrompt = ckbLinePrompt.isSelected
         state.textWordSeparator = txtTextWordSep.text
+        state.textSqlTable = txtSqlTable.text
+        state.textSqlColumn = txtSqlColumn.text
+        state.textSqlDsl = txtSqlDsl.text
+        state.textDslName = txtDslName.text
     }
 
     override fun reset() = with(component!!) {
@@ -123,11 +131,16 @@ class SettingConfigurable(val project: Project) : SearchableConfigurable {
         txtDtoName.text = state.javaDtoName
         ckbDtoPrompt.isSelected = state.javaDtoPrompt
         edtTypeMapping.text = state.javaTypeMapping
-//        edtTmplInner.text = state.javaTempletInner
+        edtTmplInner.text = state.javaTempletInner
         edtTmplOuter.text = state.javaTempletOuter
         txtTextLineSep.text = state.textLineSeparator
         ckbLinePrompt.isSelected = state.textLinePrompt
         txtTextWordSep.text = state.textWordSeparator
+        txtSqlTable.text = state.textSqlTable
+        txtSqlColumn.text = state.textSqlColumn
+        txtSqlDsl.text = state.textSqlDsl
+        txtDslName.text = state.textDslName
+
         whereSaveState(null)
     }
 }

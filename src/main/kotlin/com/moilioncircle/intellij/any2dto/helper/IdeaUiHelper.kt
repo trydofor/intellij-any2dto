@@ -21,6 +21,16 @@ import java.io.StringWriter
  * @since 2020-12-21
  */
 object IdeaUiHelper {
+
+    fun showText(msg: String, text: String) {
+        Messages.showMultilineInputDialog(null,
+            msg,
+            "Notice",
+            text,
+            Messages.getInformationIcon(),
+            null)
+    }
+
     fun showError(msg: String, t: Throwable) {
         val out = StringWriter()
         val p = PrintWriter(out)

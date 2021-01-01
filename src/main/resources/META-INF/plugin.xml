@@ -24,6 +24,8 @@
             <separator/>
             <action id="MoilionCircle.Any2dto.Jooq" class="com.moilioncircle.intellij.any2dto.actions.Any2DtoActionJooq"/>
             <action id="MoilionCircle.Any2dto.Text" class="com.moilioncircle.intellij.any2dto.actions.Any2DtoActionText"/>
+            <separator/>
+            <action id="MoilionCircle.Any2dto.SqlDsl" class="com.moilioncircle.intellij.any2dto.actions.Any2DtoActionSqlDsl"/>
             <!-- group -->
             <add-to-group group-id="EditorPopupMenu" anchor="before" relative-to-action="$Cut"/>
             <add-to-group group-id="Console.TableResult.PopupGroup" anchor="before" relative-to-action="Console.TableResult.EditValue"/>

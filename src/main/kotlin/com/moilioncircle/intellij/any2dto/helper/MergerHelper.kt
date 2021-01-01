@@ -47,39 +47,8 @@ object MergerHelper {
         return true
     }
 
-
-    fun javaFieldName(name: String): String {
-        val buff = StringBuilder(name.length)
-        var flag = 0
-        var last = '\u0000'
-        for (c in name) {
-            flag = if (c.isJavaIdentifierPart()) {
-                if (c == '_' || c == '-') {
-                    1
-                } else {
-                    when (flag) {
-                        0 -> buff.append(c.toLowerCase())
-                        1 -> buff.append(c.toUpperCase())
-                        else -> {
-                            if (last.isUpperCase()) {
-                                buff.append(c.toLowerCase())
-                            } else {
-                                buff.append(c)
-                            }
-                        }
-                    }
-                    -1
-                }
-            } else {
-                if (flag == 0) 0 else 1
-            }
-            last = c
-        }
-        return buff.toString()
-    }
-
     fun matchMapping(col: ColumnInfo, rules: List<TypeMapping>): FieldInfo {
-        val javaName = javaFieldName(col.name)
+        val javaName = NamingFuns.camelCase(col.name)
         val javaType = rules.find { matchMapping(col, it) }?.javaType ?: "Unknown"
         return FieldInfo(javaName, javaType)
     }

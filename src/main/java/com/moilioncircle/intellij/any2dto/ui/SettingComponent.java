@@ -41,6 +41,13 @@ public class SettingComponent {
     public EditorTextField edtTypeMapping;
     public EditorTextField edtTmplInner;
     public EditorTextField edtTmplOuter;
+    private JLabel lblSqlTable;
+    private JLabel lblSqlColumn;
+    private JLabel lblSqlDsl;
+    public JTextField txtSqlTable;
+    public JTextField txtSqlColumn;
+    public JTextField txtSqlDsl;
+    public JTextField txtDslName;
 
     private final String typeMapping;
     private final String innerTmpl;

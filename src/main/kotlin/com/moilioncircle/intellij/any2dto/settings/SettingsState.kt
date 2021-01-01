@@ -25,6 +25,10 @@ data class SettingsState(
     var textLineSeparator: String = defaultLineSep,
     var textLinePrompt: Boolean = true,
     var textWordSeparator: String = defaultWordSep,
+    var textSqlTable:String = defaultSqlTable,
+    var textSqlColumn:String = defaultSqlColumn,
+    var textSqlDsl:String = defaultSqlDsl,
+    var textDslName:String = defaultDslName,
 ) : PersistentStateComponent<SettingsState> {
 
     override fun getState(): SettingsState {
@@ -48,6 +52,10 @@ data class SettingsState(
         textLineSeparator = defaultLineSep
         textLinePrompt = true
         textWordSeparator = defaultWordSep
+        textSqlTable = defaultSqlTable
+        textSqlColumn = defaultSqlColumn
+        textSqlDsl = defaultSqlDsl
+        textDslName = defaultDslName
     }
 
     companion object {
@@ -56,6 +64,10 @@ data class SettingsState(
         const val defaultPkgName = "com.moilioncircle.autogen"
         const val defaultLineSep = """[\r\n,;]+"""
         const val defaultWordSep = """[^a-z0-9A-Z]+"""
+        const val defaultSqlTable = """{tab|PascalCase}Table {ref} = {tab|camelCase}Dao.getTable()"""
+        const val defaultSqlColumn = """{col|PascalCase}"""
+        const val defaultSqlDsl = "DSLContext ctx = {tab|camelCase}Dao.ctx()"
+        const val defaultDslName = "ctx"
         fun loadSettingState(): SettingsState = ServiceManager.getService(SettingsState::class.java)
     }
 }

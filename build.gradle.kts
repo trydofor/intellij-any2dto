@@ -44,10 +44,13 @@ repositories {
 
 dependencies {
     detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.14.2")
+    // dto template
     implementation("pro.fessional", "meepo", "1.0.0") {
         // for slf4j constraint violation linkageError StaticLoggerBinder
         exclude("org.slf4j", "slf4j-api")
     }
+    // sql to jooq
+    implementation("com.github.jsqlparser", "jsqlparser", "3.2")
 }
 
 // Configure gradle-intellij-plugin plugin.
@@ -88,6 +91,8 @@ tasks {
     listOf("compileKotlin", "compileTestKotlin").forEach {
         getByName<KotlinCompile>(it) {
             kotlinOptions.jvmTarget = "1.8"
+            // for iu 2020.2 use kotlin 1.3.70
+            kotlinOptions.apiVersion = "1.3"
         }
     }
 

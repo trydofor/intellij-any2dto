@@ -16,6 +16,7 @@ import com.moilioncircle.intellij.any2dto.helper.IdeaPsiHelper
 import com.moilioncircle.intellij.any2dto.helper.IdeaUiHelper
 import com.moilioncircle.intellij.any2dto.helper.MergerHelper
 import com.moilioncircle.intellij.any2dto.helper.MergerHelper.FieldInfo
+import com.moilioncircle.intellij.any2dto.helper.NamingFuns
 import com.moilioncircle.intellij.any2dto.settings.SettingsState
 
 
@@ -81,13 +82,13 @@ class Any2DtoActionJooq : AnAction() {
     // //// SelectField
     private fun byRefers(ele: PsiReferenceExpression): FieldInfo {
         val type = IdeaPsiHelper.inferGenericType(ele.type!!, "org.jooq.SelectField", 1)
-        val name = MergerHelper.javaFieldName(ele.canonicalText.substringAfter('.'))
+        val name = NamingFuns.camelCase(ele.canonicalText.substringAfter('.'))
         return FieldInfo(name, type)
     }
 
     private fun byMethod(ele: PsiMethodCallExpression): FieldInfo {
         val type = IdeaPsiHelper.inferGenericType(ele.type!!, "org.jooq.SelectField", 1)
-        val name = MergerHelper.javaFieldName(IdeaPsiHelper.inferMethodNaming(ele))
+        val name = NamingFuns.camelCase(IdeaPsiHelper.inferMethodNaming(ele))
         return FieldInfo(name, type)
     }
 }

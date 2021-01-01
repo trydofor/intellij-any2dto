@@ -81,6 +81,16 @@ take the end of the two words generate the DTO.
 
 ![DTO java args](asset/usage-java-args.png)
 
+### Sql to JooqDsl in wings style
+
+选择select的sql语句，然后在剪切板生成wings风格的jooqDSL代码，仅支持简单的mysql和java，
+复杂SQL建议使用jdbcTemplate，理由是jooq不是sql，使用jooq就是要拆解复杂SQL。  
+select SQL-SELECT and generate wings-style jooqDSL java code to clipboard.
+only support simple mysql select and java. complex SQL should use jdbcTemplate.
+jooq is NOT sql, The purpose of using jooq is to decouple complex SQL.
+
+![SQL to JooqDSL](asset/usage-sqldsl.png)
+
 
 ## Config/配置
 
@@ -91,6 +101,8 @@ click `load Default` to reset the plugin default.
 
 ### Config
 
+generate DTO from JooqDSL/Database/QueryResult/Text.
+
 * `Where to Save` save DTO code to clipboard or java file
 * `Which Template` inner class or standard POJO file
 * `Class Name` default is `Dto`, or `prompt` every time.
@@ -98,6 +110,12 @@ click `load Default` to reset the plugin default.
 * `Package Name` the package name of DTO using in `Outer File`
 * `Line Separator` the RegExp to split lines in selection
 * `Word Separator` the RegExp to split words in each line
+
+generate JooqDsl from SQL-select. support variables.
+
+* `Table Naming` table naming, see the input's tip
+* `Column Naming` column naming, see the input's tip
+* `Jooq DSL` the DSLContext sentence and reference
 
 ### Type Mapping
 
@@ -121,6 +139,17 @@ that having the same syntax as the target file. there are some builtin variable,
   - `type` java type. eg. String
   - `name` java name. eg. author
 
+### variables format
+
+the variable format and sample, only for Sql2Dsl, not Meepo.
+
+* variable -  `{var}` or `{var|fun}`
+* var - `tab`|`ref`|`col`
+* fun - `PascalCase`|`camelCase`|`BIG_SNAKE`|`snake_case`
+* suppose x=`moilion-circle`, and {x}=`moilion-circle`
+* {x|PascalCase}=`MoilionCircle`, {x|camelCase}=`moilionCircle`
+* {x|BIG_SNAKE}=`MOILION_CIRCLE`, {x|snake_case}=`moilion_circle`
+
 ## Description
 <!-- Plugin description -->
 Commonly using generated Pojo to `SELECT *` is a bad practice. the better way
@@ -136,21 +165,21 @@ be Generated to clipboard or package with pre-configured rules.
  * SqlResult - right click query Result View, MappedType
  * Database - select columns in Database ToolWindow, MappedType
  * ValuedText - select any Non-Java-Word separated values, GuessType
+ * Sql2DSL - simple mysql select to jooq DSL in wings style
 
 for more detail usage, go to [github any2dto](https://github.com/trydofor/intellij-any2dto/)
 <!-- Plugin description end -->
 
 ## Installation
 
+Open <kbd>Preferences</kbd> > <kbd>Plugins</kbd>, and
+
 - Using IDE built-in plugin system:
-  
-  <kbd>Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>Marketplace</kbd> > <kbd>Search for "Any2dto"</kbd> >
+  <kbd>Marketplace</kbd> > <kbd>Search for "Any2dto"</kbd> >
   <kbd>Install Plugin</kbd>
   
-- Manually:
-
-  Download the [latest release](https://github.com/trydofor/intellij-any2dto/releases/latest) and install it manually using
-  <kbd>Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>⚙️</kbd> > <kbd>Install plugin from disk...</kbd>
+- Manually: Download the [latest release](https://github.com/trydofor/intellij-any2dto/releases/latest) and install it manually using
+  <kbd>⚙️</kbd> > <kbd>Install plugin from disk...</kbd>
 
 ## Moilion Product
 
