@@ -45,7 +45,7 @@ repositories {
 dependencies {
     detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.14.2")
     // dto template
-    implementation("pro.fessional", "meepo", "1.0.0") {
+    implementation("pro.fessional", "meepo", "1.4.0") {
         // for slf4j constraint violation linkageError StaticLoggerBinder
         exclude("org.slf4j", "slf4j-api")
     }

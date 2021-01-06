@@ -2,6 +2,13 @@
 
 # intellij-sql2dto Changelog
 
+## [1.1.1] - 2021-01-06
+
+### Added
+
+- compatible 2019.2
+- meepo 1.4.0
+
 ## [1.1.0] - 2021-01-01
 
 ### Added
@@ -31,3 +38,6 @@
 
 ### Security
 
+[Unreleased]: https://plugins.jetbrains.com/plugin/15680-any2dto
+[1.0.0]: https://github.com/trydofor/intellij-any2dto/releases/tag/1.0.0
+[1.1.0]: https://github.com/trydofor/intellij-any2dto/releases/tag/1.1.0

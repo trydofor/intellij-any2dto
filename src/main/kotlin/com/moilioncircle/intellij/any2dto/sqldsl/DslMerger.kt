@@ -1,6 +1,6 @@
 package com.moilioncircle.intellij.any2dto.sqldsl
 
-import com.moilioncircle.intellij.any2dto.helper.NamingFuns
+import pro.fessional.meepo.sack.Holder
 
 /**
  * @author trydofor
@@ -12,8 +12,8 @@ class DslMerger(
     val dsl: String, // usage:{tab|fun}; tab=then 1st table; fun:PascalCase|camelCase|BIG_SNAKE|snake_case;
     val ctx: String, // ctx
 ) {
-    private val tabPtn = NamingFuns.parseFun(tab)
-    private val dslPtn = NamingFuns.parseFun(dsl)
+    private val tabPtn = Holder.parse(true, tab, "{", "}", "\\")
+    private val dslPtn = Holder.parse(true, dsl, "{", "}", "\\")
 
     fun merge(sql: String): String {
         val visitor = SqlVisitors(col)
@@ -38,21 +38,21 @@ class DslMerger(
         }
 
         // alias and refer
-        val arg = HashMap<String, String>()
+        val arg = HashMap<String, Any>()
         val (jooqDsl, refTabs) = visitor.jooqDsl()
 
         // dsl
-        if(refTabs.isNotEmpty()) {
+        if (refTabs.isNotEmpty()) {
             arg["tab"] = refTabs.iterator().next().second
         }
-        val dslSts = NamingFuns.mergeFun(dslPtn, arg)
+        val dslSts = dslPtn.merge(arg)
         sb.append(dslSts).append(";\n")
 
         // tables
         for ((ref, tab, uas) in refTabs) {
             arg["tab"] = tab
             arg["ref"] = ref
-            val table = NamingFuns.mergeFun(tabPtn, arg)
+            val table = tabPtn.merge(arg)
             sb.append(table)
             if (uas) {
                 sb.append(""".as("$ref")""")

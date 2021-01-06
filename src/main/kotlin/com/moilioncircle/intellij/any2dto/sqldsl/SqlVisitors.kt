@@ -1,6 +1,5 @@
 package com.moilioncircle.intellij.any2dto.sqldsl
 
-import com.moilioncircle.intellij.any2dto.helper.NamingFuns
 import net.sf.jsqlparser.expression.*
 import net.sf.jsqlparser.expression.operators.arithmetic.*
 import net.sf.jsqlparser.expression.operators.conditional.AndExpression
@@ -31,6 +30,7 @@ import net.sf.jsqlparser.statement.truncate.Truncate
 import net.sf.jsqlparser.statement.update.Update
 import net.sf.jsqlparser.statement.upsert.Upsert
 import net.sf.jsqlparser.statement.values.ValuesStatement
+import pro.fessional.meepo.sack.Holder
 import java.text.SimpleDateFormat
 import java.time.format.DateTimeFormatter
 import java.util.concurrent.atomic.AtomicInteger
@@ -49,7 +49,7 @@ class SqlVisitors(col: String) {
     private val counter = AtomicInteger(1)
 
     private val nilTab = unRef("NIL-TAB")
-    private val colPtn = NamingFuns.parseFun(col)
+    private val colPtn = Holder.parse(true, col, "{", "}", "\\")
     private val openClause = """,\s*\)""".toRegex()
 
     fun visitSql(sql: String) {
@@ -83,7 +83,7 @@ class SqlVisitors(col: String) {
 
         if (una[nilTab] != null) {
             val itr = refTabs.filter { it.value.third }.iterator()
-            if(itr.hasNext()) {
+            if (itr.hasNext()) {
                 val it = itr.next()
                 val rv = una[it.key]
                 if (rv == null) {
@@ -108,7 +108,7 @@ class SqlVisitors(col: String) {
         var p2 = str.lastIndexOf("`")
         if (p1 > 0 || p2 > 0) {
             if (p2 < 0) p2 = str.length
-            return str.substring(p1+1, p2)
+            return str.substring(p1 + 1, p2)
         } else {
             return str
         }
@@ -143,17 +143,17 @@ class SqlVisitors(col: String) {
                     if (t.first == tn) return r
                 }
                 val sa = unRef(tn)
-                if(from) {
+                if (from) {
                     refTabs[sa] = Triple(tn, false, from)
-                }else{
+                } else {
                     refTabs.putIfAbsent(sa, Triple(tn, false, from))
                 }
                 return sa
             } else {
                 val v = trim(ta)
-                if(from) {
+                if (from) {
                     refTabs[v] = Triple(tn, true, from)
-                }else{
+                } else {
                     refTabs.putIfAbsent(v, Triple(tn, true, from))
                 }
                 return v
@@ -161,7 +161,7 @@ class SqlVisitors(col: String) {
         }
     }
 
-    private fun colName(col: String): String = NamingFuns.mergeFun(colPtn, mapOf("col" to col))
+    private fun colName(col: String): String = colPtn.merge(mapOf("col" to col))
 
     private fun unImpl(from: String, item: Any?) {
         if (item == null) return

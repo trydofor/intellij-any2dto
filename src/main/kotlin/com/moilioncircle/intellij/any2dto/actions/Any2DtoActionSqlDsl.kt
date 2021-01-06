@@ -30,8 +30,8 @@ class Any2DtoActionSqlDsl : AnAction() {
 
             CopyPasteManager.getInstance().setContents(StringSelection(jooqDsl))
         } catch (t: Throwable) {
-            logger.error("failed to create mysql PSI by selected text", t)
-            IdeaUiHelper.showError("failed to create mysql PSI by selected text", t)
+            logger.error("failed to parse mysql syntax by selected text", t)
+            IdeaUiHelper.showError("failed to create mysql syntax by selected text", t)
         }
     }
 

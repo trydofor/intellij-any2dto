@@ -2,6 +2,7 @@ package com.moilioncircle.intellij.any2dto.helper
 
 import org.junit.Assert.assertEquals
 import org.junit.Test
+import pro.fessional.meepo.sack.Holder
 
 /**
  * @author trydofor
@@ -44,32 +45,6 @@ class NamingFunsTest {
     }
 
     @Test
-    fun parseFun() {
-        // (tab|ref|col)\|?(PascalCase|camelCase|BIG_SNAKE|snake_case)
-        val str = "tab.PascalCase={tab|PascalCase}" +
-                ",ref.camelCase={ref|camelCase}" +
-                ",col.BIG_SNAKE={col|BIG_SNAKE}" +
-                ",col.snake_case={col|snake_case}" +
-                ",col={col}" +
-                "the end"
-        val pse = NamingFuns.parseFun(str)
-        val lst = listOf(
-            "" to "tab.PascalCase=",
-            "tab" to "PascalCase",
-            "" to ",ref.camelCase=",
-            "ref" to "camelCase",
-            "" to ",col.BIG_SNAKE=",
-            "col" to "BIG_SNAKE",
-            "" to ",col.snake_case=",
-            "col" to "snake_case",
-            "" to ",col=",
-            "col" to "",
-            "" to "the end",
-        )
-        assertEquals(lst, pse)
-    }
-
-    @Test
     fun mergeFun() {
         val str = "tab.PascalCase={tab|PascalCase}" +
                 ",ref.camelCase={ref|camelCase}" +
@@ -77,13 +52,13 @@ class NamingFunsTest {
                 ",col.snake_case={col|snake_case}" +
                 ",col={col}" +
                 "the end"
-        val pse = NamingFuns.parseFun(str)
+        val pse = Holder.parse(true, str, "{", "}", "\\")
         val arg = mapOf(
             "tab" to "win_system_journal",
             "col" to "create_dt",
             "ref" to "GoHere",
         )
-        val rst = NamingFuns.mergeFun(pse,arg)
+        val rst = pse.merge(arg)
         val exp = "tab.PascalCase=WinSystemJournal" +
                 ",ref.camelCase=goHere" +
                 ",col.BIG_SNAKE=CREATE_DT" +

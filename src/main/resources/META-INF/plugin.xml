@@ -4,7 +4,7 @@
 
     <vendor url="http://www.moilioncircle.com" email="trydofor@gmail.com">trydofor</vendor>
 
-    <depends>com.intellij.java</depends>
+    <depends>com.intellij.modules.java</depends>
     <depends optional="true" config-file="any2dto-database.xml">com.intellij.database</depends>
 
     <extensions defaultExtensionNs="com.intellij">
@@ -18,15 +18,27 @@
     </extensions>
 
     <actions resource-bundle="messages.Any2dtoBundle">
-        <group id="MoilionCircle.Any2dtoGroup" icon="/icons/moilion-16.svg" keep-content="true" popup="true">
+        <group id="MoilionCircle.Any2dtoGroup" icon="/icons/moilion-16.svg" keep-content="true" popup="true"
+               text="Any2Dto"
+               description="Any2Dto - generate strong-type and exact fields DTOs by database query or JavaCode">
             <!-- action -->
-            <action id="MoilionCircle.Any2dto.Auto" class="com.moilioncircle.intellij.any2dto.actions.Any2DtoAction"/>
+            <action id="MoilionCircle.Any2dto.Auto" class="com.moilioncircle.intellij.any2dto.actions.Any2DtoAction"
+                    text="Auto - Detect By Context"
+                    description="Auto detect selected items, eg. java jooq, sql select, database columns"/>
             <separator/>
-            <action id="MoilionCircle.Any2dto.Jooq" class="com.moilioncircle.intellij.any2dto.actions.Any2DtoActionJooq"/>
-            <action id="MoilionCircle.Any2dto.Text" class="com.moilioncircle.intellij.any2dto.actions.Any2DtoActionText"/>
+            <action id="MoilionCircle.Any2dto.Jooq" class="com.moilioncircle.intellij.any2dto.actions.Any2DtoActionJooq"
+                    text="Jooq - Fields in Java Syntax"
+                    description="Jooq DSL fields in java code editor"/>
+            <action id="MoilionCircle.Any2dto.Text" class="com.moilioncircle.intellij.any2dto.actions.Any2DtoActionText"
+                    text="Text - Separated Values"
+                    description="Any Non-Java-Word separated values, eg. csv, tsv format"/>
             <separator/>
-            <action id="MoilionCircle.Any2dto.SqlDsl" class="com.moilioncircle.intellij.any2dto.actions.Any2DtoActionSqlDsl"/>
+            <action id="MoilionCircle.Any2dto.SqlDsl" class="com.moilioncircle.intellij.any2dto.actions.Any2DtoActionSqlDsl"
+                    text="SqlDsl - Select Clause to Jooq DSL"
+                    description="Select Clause to Jooq DSL in wings"/>
+
             <!-- group -->
+            <add-to-group group-id="ToolsMenu" anchor="first"/>
             <add-to-group group-id="EditorPopupMenu" anchor="before" relative-to-action="$Cut"/>
             <add-to-group group-id="Console.TableResult.PopupGroup" anchor="before" relative-to-action="Console.TableResult.EditValue"/>
             <add-to-group group-id="DatabaseViewPopupMenu" anchor="before" relative-to-action="DatabaseView.AddActionGroupPopup"/>

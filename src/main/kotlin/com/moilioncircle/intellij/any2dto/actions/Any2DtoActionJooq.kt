@@ -10,8 +10,6 @@ import com.intellij.psi.PsiJavaFile
 import com.intellij.psi.PsiMethodCallExpression
 import com.intellij.psi.PsiReferenceExpression
 import com.intellij.psi.util.PsiTreeUtil
-import com.intellij.refactoring.suggested.endOffset
-import com.intellij.refactoring.suggested.startOffset
 import com.moilioncircle.intellij.any2dto.helper.IdeaPsiHelper
 import com.moilioncircle.intellij.any2dto.helper.IdeaUiHelper
 import com.moilioncircle.intellij.any2dto.helper.MergerHelper
@@ -50,11 +48,12 @@ class Any2DtoActionJooq : AnAction() {
                 return
             }
 
-            val offBgn = eleBgn.startOffset
-            val offEnd = eleEnd.endOffset
+            val offBgn = eleBgn.textRange.startOffset
+            val offEnd = eleEnd.textRange.endOffset
             val eleTgt = eleParent.children.filter {
                 (it is PsiReferenceExpression || it is PsiMethodCallExpression)
-                        && it.endOffset >= offBgn && it.startOffset <= offEnd
+                        && it.textRange.endOffset >= offBgn
+                        && it.textRange.startOffset <= offEnd
             }
             if (eleTgt.isEmpty()) {
                 Messages.showWarningDialog("empty Jooq's field-like expression list", "Unsupported")
