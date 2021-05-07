@@ -17,7 +17,6 @@ import com.moilioncircle.intellij.any2dto.helper.MergerHelper.FieldInfo
 import com.moilioncircle.intellij.any2dto.helper.NamingFuns
 import com.moilioncircle.intellij.any2dto.settings.SettingsState
 
-
 class Any2DtoActionJooq : AnAction() {
 
     private val logger = Logger.getInstance(Any2DtoActionJooq::class.java)
@@ -51,9 +50,9 @@ class Any2DtoActionJooq : AnAction() {
             val offBgn = eleBgn.textRange.startOffset
             val offEnd = eleEnd.textRange.endOffset
             val eleTgt = eleParent.children.filter {
+                it.textRange.endOffset >= offBgn &&
+                it.textRange.startOffset <= offEnd &&
                 (it is PsiReferenceExpression || it is PsiMethodCallExpression)
-                        && it.textRange.endOffset >= offBgn
-                        && it.textRange.startOffset <= offEnd
             }
             if (eleTgt.isEmpty()) {
                 Messages.showWarningDialog("empty Jooq's field-like expression list", "Unsupported")

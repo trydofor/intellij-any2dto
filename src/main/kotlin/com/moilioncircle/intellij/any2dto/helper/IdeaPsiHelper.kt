@@ -3,7 +3,6 @@ package com.moilioncircle.intellij.any2dto.helper
 import com.intellij.psi.PsiMethodCallExpression
 import com.intellij.psi.PsiType
 
-
 /**
  * @author trydofor
  * @since 2020-12-23

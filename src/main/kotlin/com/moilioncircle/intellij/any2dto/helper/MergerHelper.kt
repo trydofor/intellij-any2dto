@@ -17,7 +17,6 @@ import pro.fessional.meepo.sack.Parser
 import java.awt.datatransfer.StringSelection
 import java.io.File
 
-
 /**
  * @author trydofor
  * @since 2020-12-16

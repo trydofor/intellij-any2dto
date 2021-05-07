@@ -25,10 +25,10 @@ data class SettingsState(
     var textLineSeparator: String = defaultLineSep,
     var textLinePrompt: Boolean = true,
     var textWordSeparator: String = defaultWordSep,
-    var textSqlTable:String = defaultSqlTable,
-    var textSqlColumn:String = defaultSqlColumn,
-    var textSqlDsl:String = defaultSqlDsl,
-    var textDslName:String = defaultDslName,
+    var textSqlTable: String = defaultSqlTable,
+    var textSqlColumn: String = defaultSqlColumn,
+    var textSqlDsl: String = defaultSqlDsl,
+    var textDslName: String = defaultDslName,
 ) : PersistentStateComponent<SettingsState> {
 
     override fun getState(): SettingsState {

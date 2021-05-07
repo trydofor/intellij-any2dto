@@ -11,7 +11,6 @@ import com.moilioncircle.intellij.any2dto.settings.SettingsState
 import com.moilioncircle.intellij.any2dto.sqldsl.DslMerger
 import java.awt.datatransfer.StringSelection
 
-
 class Any2DtoActionSqlDsl : AnAction() {
     private val logger = Logger.getInstance(Any2DtoActionSqlDsl::class.java)
 

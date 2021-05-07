@@ -11,7 +11,6 @@ import com.moilioncircle.intellij.any2dto.helper.MergerHelper
 import com.moilioncircle.intellij.any2dto.helper.MergerHelper.FieldInfo
 import com.moilioncircle.intellij.any2dto.settings.SettingsState
 
-
 class Any2DtoActionText : AnAction() {
     private val logger = Logger.getInstance(Any2DtoActionText::class.java)
 

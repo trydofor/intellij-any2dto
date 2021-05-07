@@ -48,7 +48,6 @@ object IdeaUiHelper {
         val dataGrid = e.getData(DatabaseDataKeys.DATA_GRID_KEY)
         if (dataGrid != null) return true
 
-
         // database tool window
         val selected = e.getData(LangDataKeys.PSI_ELEMENT_ARRAY)
         if (selected.isNullOrEmpty()) return false

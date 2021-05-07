@@ -8,7 +8,6 @@ import com.moilioncircle.intellij.any2dto.ui.SettingComponent
 import javax.swing.JComponent
 import javax.swing.event.ChangeEvent
 
-
 /**
  * @author trydofor
  * @since 2020-12-17

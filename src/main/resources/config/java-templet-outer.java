@@ -3,9 +3,6 @@
 package com.moilioncircle.product;
 
 import lombok.Data;
-// RNA:EACH map/1/javaTypeImports/impt
-// RNA:USE /java.time.LocalDateTime/impt/
-import java.time.LocalDateTime;
 // RNA:DONE impt
 
 // RNA:USE /OuterPojo/className/

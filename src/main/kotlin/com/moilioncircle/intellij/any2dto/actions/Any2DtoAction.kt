@@ -5,7 +5,6 @@ import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.moilioncircle.intellij.any2dto.helper.IdeaUiHelper
 
-
 class Any2DtoAction : AnAction() {
 
     override fun actionPerformed(e: AnActionEvent) {

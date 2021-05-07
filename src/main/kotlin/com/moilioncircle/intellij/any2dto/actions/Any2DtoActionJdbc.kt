@@ -17,7 +17,6 @@ import com.moilioncircle.intellij.any2dto.helper.MergerHelper
 import com.moilioncircle.intellij.any2dto.helper.MergerHelper.ColumnInfo
 import com.moilioncircle.intellij.any2dto.settings.SettingsState
 
-
 class Any2DtoActionJdbc : AnAction() {
     private val logger = Logger.getInstance(Any2DtoActionJdbc::class.java)
 
@@ -76,10 +75,10 @@ class Any2DtoActionJdbc : AnAction() {
         mergeJava(sqlCol, e, "Table/Columns")
     }
 
-    private fun mergeJava(sqlCol: List<ColumnInfo>, e: AnActionEvent, from:String) {
+    private fun mergeJava(sqlCol: List<ColumnInfo>, e: AnActionEvent, from: String) {
         val state = SettingsState.loadSettingState()
         val project = e.getData(LangDataKeys.PROJECT)
         val fields = MergerHelper.matchFields(state, sqlCol)
-        MergerHelper.generateJava(state, fields, project,from)
+        MergerHelper.generateJava(state, fields, project, from)
     }
 }
