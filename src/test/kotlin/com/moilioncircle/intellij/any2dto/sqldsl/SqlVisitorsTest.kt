@@ -81,6 +81,41 @@ class SqlVisitorsTest {
             """
     )
 
+    @Test
+    fun test05() = eq(
+        """
+            select 
+            t1.id, t2.create_dt dt
+            from table1 as t1, table2 as t2 , table3 t3 
+            where t1.id = t2.id and t2.num = t3.num
+        """,
+        setOf(Triple("t1", "table1", true),
+            Triple("t2", "table2", true),
+            Triple("t3", "table3", true)),
+        """
+                select(t1.ID, t2.CREATE_DT.as("dt"))
+                .from(t1,t2,t3)
+                .where(t1.ID.eq(t2.ID).and(t2.NUM.eq(t3.NUM)))
+            """
+    )
+
+    @Test
+    fun test06() = eq(
+        """
+            select 
+            t1.id, t2.create_dt dt
+            from table1 as t1 join table2 as t2 
+            where t1.id = t2.id
+        """,
+        setOf(Triple("t1", "table1", true),
+            Triple("t2", "table2", true)),
+        """
+                select(t1.ID, t2.CREATE_DT.as("dt"))
+                .from(t1).join(t2)
+                .where(t1.ID.eq(t2.ID))
+            """
+    )
+
     // table alias can not impl right， should use Derived table
     // https://www.jooq.org/doc/latest/manual/sql-building/table-expressions/nested-selects/
     @Test

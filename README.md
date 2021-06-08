@@ -181,7 +181,7 @@ Open <kbd>Preferences</kbd> > <kbd>Plugins</kbd>, and
 - Manually: Download the [latest release](https://github.com/trydofor/intellij-any2dto/releases/latest) and install it manually using
   <kbd>⚙️</kbd> > <kbd>Install plugin from disk...</kbd>
 
-- Developer: git clone, clean,compile,buildPlugin (note skip any check style, only use Idea IDE style)
+- Developer: git clone, clean, compile, buildPlugin (note skip any check style, only use Idea IDE style)
 
 ## Moilion Product
 

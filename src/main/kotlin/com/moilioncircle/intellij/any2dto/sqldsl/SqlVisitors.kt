@@ -280,11 +280,17 @@ class SqlVisitors(col: String) {
         } else if (join.isCross) {
             buff.append("crossJoin(")
         } else {
-            buff.append("join(")
+            if (join.isSimple) {
+                buff.replace(buff.lastIndexOf(")"), buff.length, ",")
+            } else {
+                buff.append("join(")
+            }
         }
         join.rightItem.accept(vztFromItem)
-        buff.append(")\n.on(")
-        join.onExpression.accept(vztExpression)
+        if (join.onExpression != null) {
+            buff.append(")\n.on(")
+            join.onExpression.accept(vztExpression)
+        }
         buff.append(")")
     }
 

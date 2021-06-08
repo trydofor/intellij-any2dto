@@ -2,6 +2,23 @@
 
 # intellij-sql2dto Changelog
 
+## [1.1.3] - 2021-06-08
+
+### Fixed
+
+- sql2jooq NPE when select  from t1,t2,t3
+
+### Added
+
+- compatible 2021.2
+
+
+## [1.1.2] - 2021-05-07
+
+### Added
+
+- compatible 2021.1
+
 ## [1.1.1] - 2021-01-06
 
 ### Added
