@@ -19,11 +19,11 @@ class Any2DtoActionSqlDsl : AnAction() {
             val editor = e.getData(CommonDataKeys.EDITOR)
             val code = editor?.caretModel?.primaryCaret?.selectedText?.trim() ?: ""
             if (!code.startsWith("select", true)) {
-                Messages.showWarningDialog("only support sql select statement", "Unsupported")
+                Messages.showWarningDialog("Only support sql select statement", "Unsupported")
                 return
             }
 
-            val state = SettingsState.loadSettingState()
+            val state = SettingsState.loadSettingState(e.project!!)
             val merger = DslMerger(state.textSqlColumn, state.textSqlTable, state.textSqlDsl, state.textDslName)
             val jooqDsl = merger.merge(code)
 

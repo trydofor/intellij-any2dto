@@ -1,5 +1,6 @@
 package com.moilioncircle.intellij.any2dto.ui;
 
+import com.intellij.openapi.fileTypes.PlainTextFileType;
 import com.intellij.openapi.project.Project;
 import com.intellij.ui.EditorTextField;
 import com.moilioncircle.intellij.any2dto.helper.IdeaUiHelper;
@@ -41,6 +42,7 @@ public class SettingComponent {
     public EditorTextField edtTypeMapping;
     public EditorTextField edtTmplInner;
     public EditorTextField edtTmplOuter;
+    public EditorTextField edtTmplReview;
     private JLabel lblSqlTable;
     private JLabel lblSqlColumn;
     private JLabel lblSqlDsl;
@@ -48,22 +50,26 @@ public class SettingComponent {
     public JTextField txtSqlColumn;
     public JTextField txtSqlDsl;
     public JTextField txtDslName;
+    private JPanel pnlTmplReview;
 
     private final String typeMapping;
     private final String innerTmpl;
     private final String outerTmpl;
+    private final String reviewTmpl;
     private final Project project;
 
-    public SettingComponent(Project project, String typeMapping, String innerTmpl, String outerTmpl) {
+    public SettingComponent(Project project, String typeMapping, String innerTmpl, String outerTmpl, String reviewTmpl) {
         this.project = project;
         this.typeMapping = typeMapping;
         this.innerTmpl = innerTmpl;
         this.outerTmpl = outerTmpl;
+        this.reviewTmpl = reviewTmpl;
     }
 
     private void createUIComponents() {
         this.edtTypeMapping = IdeaUiHelper.createMappingEditor(typeMapping, project);
         this.edtTmplInner = IdeaUiHelper.createJavaEditor(innerTmpl, project);
         this.edtTmplOuter = IdeaUiHelper.createJavaEditor(outerTmpl, project);
+        this.edtTmplReview = IdeaUiHelper.createEditor(reviewTmpl, project, PlainTextFileType.INSTANCE);
     }
 }

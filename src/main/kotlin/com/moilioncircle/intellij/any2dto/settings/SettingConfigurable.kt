@@ -1,7 +1,6 @@
 package com.moilioncircle.intellij.any2dto.settings
 
 import com.intellij.ide.BrowserUtil
-import com.intellij.openapi.components.ServiceManager
 import com.intellij.openapi.options.SearchableConfigurable
 import com.intellij.openapi.project.Project
 import com.moilioncircle.intellij.any2dto.ui.SettingComponent
@@ -12,20 +11,26 @@ import javax.swing.event.ChangeEvent
  * @author trydofor
  * @since 2020-12-17
  */
-class SettingConfigurable(val project: Project) : SearchableConfigurable {
+class SettingConfigurable(private val project: Project) : SearchableConfigurable {
 
     var component: SettingComponent? = null
 
     override fun createComponent(): JComponent {
-        val state = ServiceManager.getService(SettingsState::class.java)
-        component = SettingComponent(project, state.javaTypeMapping, state.javaTempletInner, state.javaTempletOuter)
+        val state = SettingsState.loadSettingState(project)
+        component = SettingComponent(
+            project,
+            state.javaTypeMapping,
+            state.javaTempletInner,
+            state.javaTempletOuter,
+            state.codeTempletReview
+        )
         initComponentEvent(state)
         initStateValue(state)
         return component!!.pnlRoot
     }
 
     override fun isModified(): Boolean = with(component!!) {
-        val state = SettingsState.loadSettingState()
+        val state = SettingsState.loadSettingState(project)
         return state.usingClipboard != rbtClipboard.isSelected
                 || state.usingInnerClass != rbtInnerClass.isSelected
                 || state.javaPackageName != txtPackageName.text
@@ -34,6 +39,7 @@ class SettingConfigurable(val project: Project) : SearchableConfigurable {
                 || state.javaDtoPrompt != ckbDtoPrompt.isSelected
                 || state.javaTempletInner != edtTmplInner.text
                 || state.javaTempletOuter != edtTmplOuter.text
+                || state.codeTempletReview != edtTmplReview.text
                 || state.javaTypeMapping != edtTypeMapping.text
                 || state.textLineSeparator != txtTextLineSep.text
                 || state.textLinePrompt != ckbLinePrompt.isSelected
@@ -45,7 +51,7 @@ class SettingConfigurable(val project: Project) : SearchableConfigurable {
     }
 
     override fun apply() = with(component!!) {
-        val state = SettingsState.loadSettingState()
+        val state = SettingsState.loadSettingState(project)
         state.usingClipboard = rbtClipboard.isSelected
         state.usingInnerClass = rbtInnerClass.isSelected
         state.javaPackageName = txtPackageName.text
@@ -54,6 +60,7 @@ class SettingConfigurable(val project: Project) : SearchableConfigurable {
         state.javaDtoName = txtDtoName.text
         state.javaTempletInner = edtTmplInner.text
         state.javaTempletOuter = edtTmplOuter.text
+        state.codeTempletReview = edtTmplReview.text
         state.javaTypeMapping = edtTypeMapping.text
         state.textLineSeparator = txtTextLineSep.text
         state.textLinePrompt = ckbLinePrompt.isSelected
@@ -65,7 +72,7 @@ class SettingConfigurable(val project: Project) : SearchableConfigurable {
     }
 
     override fun reset() = with(component!!) {
-        val state = SettingsState.loadSettingState()
+        val state = SettingsState.loadSettingState(project)
         initStateValue(state)
     }
 
@@ -132,6 +139,7 @@ class SettingConfigurable(val project: Project) : SearchableConfigurable {
         edtTypeMapping.text = state.javaTypeMapping
         edtTmplInner.text = state.javaTempletInner
         edtTmplOuter.text = state.javaTempletOuter
+        edtTmplReview.text = state.codeTempletReview
         txtTextLineSep.text = state.textLineSeparator
         ckbLinePrompt.isSelected = state.textLinePrompt
         txtTextWordSep.text = state.textWordSeparator

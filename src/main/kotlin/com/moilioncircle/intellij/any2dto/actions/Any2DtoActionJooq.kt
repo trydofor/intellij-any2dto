@@ -30,7 +30,7 @@ class Any2DtoActionJooq : AnAction() {
             val editor = e.getData(CommonDataKeys.EDITOR)
             val psiJava = e.getData(CommonDataKeys.PSI_FILE)
             if (editor == null || psiJava !is PsiJavaFile) {
-                Messages.showWarningDialog("only support java source file", "Unsupported")
+                Messages.showWarningDialog("Only support java source file", "Unsupported")
                 return
             }
 
@@ -38,12 +38,12 @@ class Any2DtoActionJooq : AnAction() {
             val eleBgn = psiJava.findElementAt(caret.selectionStart)
             val eleEnd = psiJava.findElementAt(caret.selectionEnd - 1)
             if (eleBgn == null || eleEnd == null) {
-                Messages.showWarningDialog("only Jooq's field-like expression list", "Unsupported")
+                Messages.showWarningDialog("Only Jooq's field-like expression list", "Unsupported")
                 return
             }
             val eleParent = PsiTreeUtil.findCommonParent(eleBgn, eleEnd)
             if (eleParent == null) {
-                Messages.showWarningDialog("fields not in same expression list", "Unsupported")
+                Messages.showWarningDialog("Fields not in same expression list", "Unsupported")
                 return
             }
 
@@ -55,11 +55,11 @@ class Any2DtoActionJooq : AnAction() {
                 (it is PsiReferenceExpression || it is PsiMethodCallExpression)
             }
             if (eleTgt.isEmpty()) {
-                Messages.showWarningDialog("empty Jooq's field-like expression list", "Unsupported")
+                Messages.showWarningDialog("Empty Jooq's field-like expression list", "Unsupported")
                 return
             }
 
-            val project = e.getData(LangDataKeys.PROJECT)
+            val project = e.getData(LangDataKeys.PROJECT)!!
             val fields = ArrayList<FieldInfo>()
             for (ele in eleTgt) {
                 when (ele) {
@@ -69,7 +69,7 @@ class Any2DtoActionJooq : AnAction() {
                 }
             }
 
-            val state = SettingsState.loadSettingState()
+            val state = SettingsState.loadSettingState(project)
             MergerHelper.generateJava(state, fields, project, "Jooq Fields")
         } catch (t: Throwable) {
             logger.error("failed to generate by jooq", t)

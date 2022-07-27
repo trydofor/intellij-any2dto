@@ -1,0 +1,14 @@
+<idea-plugin>
+    <actions resource-bundle="messages.Any2dtoBundle">
+        <action id="MoilionCircle.Any2dto.Jooq" class="com.moilioncircle.intellij.any2dto.actions.Any2DtoActionJooq"
+                text="Jooq - Fields in Java Syntax"
+                description="Jooq DSL fields in java code editor">
+            <add-to-group group-id="MoilionCircle.Any2dtoGroup" anchor="before" relative-to-action="MoilionCircle.Any2dto.Text"/>
+        </action>
+        <action id="MoilionCircle.Any2dto.SqlDsl" class="com.moilioncircle.intellij.any2dto.actions.Any2DtoActionSqlDsl"
+                text="SqlDsl - Select Clause to Jooq DSL"
+                description="Select Clause to Jooq DSL in wings">
+            <add-to-group group-id="MoilionCircle.Any2dtoGroup" anchor="before" relative-to-action="MoilionCircle.Any2dto.Text"/>
+        </action>
+    </actions>
+</idea-plugin>

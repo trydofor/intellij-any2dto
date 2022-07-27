@@ -131,8 +131,8 @@ object MergerHelper {
             if (dtoJava == null) {
                 dtoJava = vpg.createChildData(this, "$dtoName.java")
             } else {
-                val yn = Messages.showYesNoDialog("file existed, [Yes] to overwrite, else to clipboard",
-                    "File overwrite",
+                val yn = Messages.showYesNoDialog("File existed, [Yes] to overwrite, else to clipboard",
+                    "File Overwrite",
                     Messages.getQuestionIcon())
                 if (yn != Messages.YES) {
                     copyClipboard(javaCode, "")
@@ -157,7 +157,7 @@ object MergerHelper {
         }
     }
 
-    private fun copyClipboard(code: String, error: String) {
+    fun copyClipboard(code: String, error: String) {
         if (error.isNotEmpty()) {
             Messages.showMessageDialog(error, "Notice", Messages.getWarningIcon())
         }

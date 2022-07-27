@@ -121,7 +121,7 @@ generate JooqDsl from SQL-select. support variables.
 
  comment begins with `#`, and ignore leading white spaces
  TYPE_NAME(PRECISION,SCALE) = JAVA_CLASS, one rule per line,
- - TYPE_NAME are case insensitive
+ - TYPE_NAME are case-insensitive
  - PRECISION & SCALE are digit, `1-3` = `[1,2,3]`, `*`= `ANY`
  - (PRECISION,SCALE) should be omitted if match ANY
  - for simple `CHAR(1,*)` = `CHAR(1)`; `CHAR(*)` = `CHAR`;
@@ -157,7 +157,7 @@ is `SELECT ONLY, WHAT, YOU, NEED` and generate the exact DTO automatically.
 
 Generate DTO code by selected JavaCode, DbColumn, SqlResult, ValuedText.
 
-Right click the selection in JavaEditor, SqlConsole or DatabaseView,
+Right-click the selection in JavaEditor, SqlConsole or DatabaseView,
 and choose `Any2Dto` in the popup menus, then, the DTO code will
 be Generated to clipboard or package with pre-configured rules.
 
@@ -166,6 +166,7 @@ be Generated to clipboard or package with pre-configured rules.
  * Database - select columns in Database ToolWindow, MappedType
  * ValuedText - select any Non-Java-Word separated values, GuessType
  * Sql2DSL - simple mysql select to jooq DSL in wings style
+ * Review - copy code as markdown to review
 
 for more detail usage, go to [github any2dto](https://github.com/trydofor/intellij-any2dto/)
 <!-- Plugin description end -->
@@ -193,10 +194,10 @@ Open <kbd>Preferences</kbd> > <kbd>Plugins</kbd>, and
    sharing any topic, skill to make life easier & happier.
  * [godbart](https://github.com/trydofor/godbart)
    go-db-art, a SQL-based CLI for RDBMS schema versioning & data migration
- * [dota `wings`](https://github.com/trydofor/pro.fessional.wings)
+ * [WingsBoot](https://github.com/trydofor/pro.fessional.wings)
    java bootstrap of springboot for startup team to fast refactor and fast delivery.
    type-safe, compile-time, db-schema & table-record can be versioned.
- * [dota `meepo`](https://github.com/trydofor/pro.fessional.meepo)
+ * [meepo](https://github.com/trydofor/pro.fessional.meepo)
    a comment-base template engine for any program language.
- * [dota `mirara`](https://github.com/trydofor/pro.fessional.mirana)
+ * [mirara](https://github.com/trydofor/pro.fessional.mirana)
    a java common library for id, text, time, code, etc.

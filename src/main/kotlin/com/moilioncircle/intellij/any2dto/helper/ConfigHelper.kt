@@ -9,6 +9,7 @@ object ConfigHelper {
     val defaultMapping = loadDefaultConf("java-type-mapping.txt")
     val defaultTemplateInner = loadDefaultConf("java-templet-inner.java")
     val defaultTemplateOuter = loadDefaultConf("java-templet-outer.java")
+    val defaultTemplateReview = loadDefaultConf("code-review.md")
 
     /**
      * TYPE_NAME(PRECISION,SCALE) = JAVA_CLASS
@@ -71,7 +72,7 @@ object ConfigHelper {
     }
 
     private fun loadDefaultConf(name: String) = ConfigHelper.javaClass
-        .getResourceAsStream("/config/$name")
+        .getResourceAsStream("/config/$name")!!
         .reader()
         .readText()
 }

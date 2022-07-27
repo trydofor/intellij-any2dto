@@ -65,7 +65,7 @@ object IdeaUiHelper {
     @JvmStatic
     fun createMappingEditor(text: String, project: Project): EditorTextField {
         val fileType = try {
-            // somethings hehe, can see but can not use it
+            // some things here, can see but can not use it
             val propType = Class.forName("com.intellij.lang.properties.PropertiesFileType") as Class<*>
             val field = propType.getField("INSTANCE")
             field[null] as FileType
@@ -78,6 +78,7 @@ object IdeaUiHelper {
     @JvmStatic
     fun createJavaEditor(text: String, project: Project) = createEditor(text, project, JavaFileType.INSTANCE)
 
+    @JvmStatic
     fun createEditor(text: String, project: Project, fileType: FileType): EditorTextField {
         // inal Project project = ProjectUtil.guessCurrentProject(getMainFormPanel());
         val editor = EditorTextField(text, project, fileType)

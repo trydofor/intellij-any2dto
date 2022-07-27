@@ -18,15 +18,17 @@ class Any2DtoActionText : AnAction() {
         try {
             val editor = e.getData(CommonDataKeys.EDITOR) ?: return
             val select = editor.caretModel.primaryCaret.selectedText ?: return
-            val state = SettingsState.loadSettingState()
+            val state = SettingsState.loadSettingState(e.project!!)
             val wsp = state.textWordSeparator.toRegex()
             var lines = select.split(state.textLineSeparator.toRegex()).filter { it.isNotBlank() }
             while (state.textLinePrompt && lines.size == 1) {
                 val reg =
-                    Messages.showInputDialog("only one line, may need new Separator",
-                        "Input line Separator Regexp",
+                    Messages.showInputDialog(
+                        "Only one line, may need new Separator",
+                        "Input Line Separator Regexp",
                         Messages.getQuestionIcon(),
-                        state.textLineSeparator, null)
+                        state.textLineSeparator, null
+                    )
                 if (reg.isNullOrEmpty() || reg == state.textLineSeparator) {
                     break
                 } else {
@@ -49,5 +51,10 @@ class Any2DtoActionText : AnAction() {
             logger.error("failed to generate by text", t)
             IdeaUiHelper.showError("failed to generate by jooq", t)
         }
+    }
+
+    override fun update(e: AnActionEvent) {
+        val editor = e.getData(CommonDataKeys.EDITOR)
+        e.presentation.isEnabled = editor?.caretModel?.primaryCaret?.selectedText?.isNotBlank() ?: false
     }
 }

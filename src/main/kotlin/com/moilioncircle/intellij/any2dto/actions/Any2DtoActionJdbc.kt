@@ -57,26 +57,32 @@ class Any2DtoActionJdbc : AnAction() {
     private fun byColumn(elements: Array<PsiElement>, e: AnActionEvent) {
         val sqlCol = ArrayList<ColumnInfo>()
         for (ele in elements) {
-            if (ele is DbTable) {
-                val dasObject = DbUtil.getDasObject(ele) as BasicLikeTable
-                for (col in dasObject.columns) {
-                    val dt = col.dataType
-                    val el = ColumnInfo(col.name, dt.typeName, dt.precision, dt.scale)
+            when (ele) {
+                is DbTable -> {
+                    val dasObject = DbUtil.getDasObject(ele) as BasicLikeTable
+                    for (col in dasObject.columns) {
+                        val dt = col.dataType
+                        val el = ColumnInfo(col.name, dt.typeName, dt.precision, dt.scale)
+                        sqlCol.add(el)
+                    }
+                }
+
+                is DbColumn -> {
+                    val dt = ele.dataType
+                    val el = ColumnInfo(ele.name, dt.typeName, dt.precision, dt.scale)
                     sqlCol.add(el)
                 }
-            } else if (ele is DbColumn) {
-                val dt = ele.dataType
-                val el = ColumnInfo(ele.name, dt.typeName, dt.precision, dt.scale)
-                sqlCol.add(el)
-            } else {
-                logger.warn("unsupported type " + ele.text)
+
+                else -> {
+                    logger.warn("unsupported type " + ele.text)
+                }
             }
         }
         mergeJava(sqlCol, e, "Table/Columns")
     }
 
     private fun mergeJava(sqlCol: List<ColumnInfo>, e: AnActionEvent, from: String) {
-        val state = SettingsState.loadSettingState()
+        val state = SettingsState.loadSettingState(e.project!!)
         val project = e.getData(LangDataKeys.PROJECT)
         val fields = MergerHelper.matchFields(state, sqlCol)
         MergerHelper.generateJava(state, fields, project, from)

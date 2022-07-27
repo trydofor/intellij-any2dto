@@ -1,9 +1,9 @@
 package com.moilioncircle.intellij.any2dto.settings
 
 import com.intellij.openapi.components.PersistentStateComponent
-import com.intellij.openapi.components.ServiceManager
 import com.intellij.openapi.components.State
 import com.intellij.openapi.components.Storage
+import com.intellij.openapi.project.Project
 import com.intellij.util.xmlb.XmlSerializerUtil
 import com.moilioncircle.intellij.any2dto.helper.ConfigHelper
 
@@ -21,6 +21,7 @@ data class SettingsState(
     var usingInnerClass: Boolean = true,
     var javaTempletInner: String = ConfigHelper.defaultTemplateInner,
     var javaTempletOuter: String = ConfigHelper.defaultTemplateOuter,
+    var codeTempletReview: String = ConfigHelper.defaultTemplateReview,
     var javaTypeMapping: String = ConfigHelper.defaultMapping,
     var textLineSeparator: String = defaultLineSep,
     var textLinePrompt: Boolean = true,
@@ -48,6 +49,7 @@ data class SettingsState(
         usingInnerClass = true
         javaTempletInner = ConfigHelper.defaultTemplateInner
         javaTempletOuter = ConfigHelper.defaultTemplateOuter
+        codeTempletReview = ConfigHelper.defaultTemplateReview
         javaTypeMapping = ConfigHelper.defaultMapping
         textLineSeparator = defaultLineSep
         textLinePrompt = true
@@ -68,6 +70,6 @@ data class SettingsState(
         const val defaultSqlColumn = """{col|PascalCase}"""
         const val defaultSqlDsl = "DSLContext ctx = {tab|camelCase}Dao.ctx()"
         const val defaultDslName = "ctx"
-        fun loadSettingState(): SettingsState = ServiceManager.getService(SettingsState::class.java)
+        fun loadSettingState(project: Project): SettingsState = project.getService(SettingsState::class.java)
     }
 }
