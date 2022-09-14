@@ -5,10 +5,17 @@
 ## file line1-line2
 
 // RNA:USE /project/Project/
-// RNA:USE /date/now.date/
-// RNA:USE /time/now.time/
 // RNA:USE /filepath/FilePath/
-project date time
+
+// RNA:USE /hash/GitHash/
+// RNA:USE /time/ModTime/
+
+// RNA:WHEN /yes/GitHash/bg
+project hash
+// RNA:ELSE bg
+project time
+// RNA:DONE bg
+
 filepath
 
 // RNA:USE /text/FileType/

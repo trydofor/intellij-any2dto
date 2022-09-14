@@ -91,6 +91,10 @@ jooq is NOT sql, The purpose of using jooq is to decouple complex SQL.
 
 ![SQL to JooqDSL](asset/usage-sqldsl.png)
 
+### Code Review in Markdown
+
+把选择的代码变为Markdown的审查格式。
+review selected code in markdown.
 
 ## Config/配置
 
@@ -182,7 +186,7 @@ Open <kbd>Preferences</kbd> > <kbd>Plugins</kbd>, and
 - Manually: Download the [latest release](https://github.com/trydofor/intellij-any2dto/releases/latest) and install it manually using
   <kbd>⚙️</kbd> > <kbd>Install plugin from disk...</kbd>
 
-- Developer: git clone, clean, compile, buildPlugin (note skip any check style, only use Idea IDE style)
+- Developer: git clone, clean, compile, buildPlugin / runIde
 
 ## Moilion Product
 

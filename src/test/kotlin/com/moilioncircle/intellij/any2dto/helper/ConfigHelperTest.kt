@@ -12,23 +12,35 @@ class ConfigHelperTest {
 
     @Test
     fun parseMapping() {
-        assertEquals(TypeMapping("java.math.BigDecimal", "DECIMAL", -1, -1, -1, -1),
-            ConfigHelper.parseMapping(" DECIMAL = java.math.BigDecimal "))
+        assertEquals(
+            TypeMapping("java.math.BigDecimal", "DECIMAL", -1, -1, -1, -1),
+            ConfigHelper.parseMapping(" DECIMAL = java.math.BigDecimal ")
+        )
 
-        assertEquals(TypeMapping("java.math.BigDecimal", "DECIMAL", -1, -1, -1, -1),
-            ConfigHelper.parseMapping("DECIMAL() = java.math.BigDecimal"))
+        assertEquals(
+            TypeMapping("java.math.BigDecimal", "DECIMAL", -1, -1, -1, -1),
+            ConfigHelper.parseMapping("DECIMAL() = java.math.BigDecimal")
+        )
 
-        assertEquals(TypeMapping("java.math.BigDecimal", "DECIMAL", 10, 10, -1, -1),
-            ConfigHelper.parseMapping("DECIMAL(10) = java.math.BigDecimal"))
+        assertEquals(
+            TypeMapping("java.math.BigDecimal", "DECIMAL", 10, 10, -1, -1),
+            ConfigHelper.parseMapping("DECIMAL(10) = java.math.BigDecimal")
+        )
 
-        assertEquals(TypeMapping("java.math.BigDecimal", "DECIMAL", 10, 10, -1, -1),
-            ConfigHelper.parseMapping("DECIMAL(10,) = java.math.BigDecimal"))
+        assertEquals(
+            TypeMapping("java.math.BigDecimal", "DECIMAL", 10, 10, -1, -1),
+            ConfigHelper.parseMapping("DECIMAL(10,) = java.math.BigDecimal")
+        )
 
-        assertEquals(TypeMapping("java.math.BigDecimal", "DECIMAL", 10, 10, -1, -1),
-            ConfigHelper.parseMapping("DECIMAL(10,*) = java.math.BigDecimal"))
+        assertEquals(
+            TypeMapping("java.math.BigDecimal", "DECIMAL", 10, 10, -1, -1),
+            ConfigHelper.parseMapping("DECIMAL(10,*) = java.math.BigDecimal")
+        )
 
-        assertEquals(TypeMapping("java.math.BigDecimal", "DECIMAL", 10, 10, 1, 3),
-            ConfigHelper.parseMapping("DECIMAL(10,1-3) = java.math.BigDecimal"))
+        assertEquals(
+            TypeMapping("java.math.BigDecimal", "DECIMAL", 10, 10, 1, 3),
+            ConfigHelper.parseMapping("DECIMAL(10,1-3) = java.math.BigDecimal")
+        )
     }
 
     @Test

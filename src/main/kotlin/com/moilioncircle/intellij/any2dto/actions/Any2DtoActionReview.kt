@@ -4,11 +4,16 @@ import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.CommonDataKeys
 import com.intellij.openapi.actionSystem.PlatformDataKeys
+import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.diagnostic.Logger
 import com.moilioncircle.intellij.any2dto.helper.IdeaUiHelper
 import com.moilioncircle.intellij.any2dto.helper.MergerHelper.copyClipboard
+import com.moilioncircle.intellij.any2dto.services.GitRevisionService
 import com.moilioncircle.intellij.any2dto.settings.SettingsState
 import pro.fessional.meepo.sack.Parser
+import java.time.Instant
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 
 
 class Any2DtoActionReview : AnAction() {
@@ -35,6 +40,13 @@ class Any2DtoActionReview : AnAction() {
             } else {
                 ctx["FilePath"] = file.canonicalPath ?: ""
             }
+
+            val instant = Instant.ofEpochMilli(file.timeStamp)
+            val lastTime = instant.atZone(ZoneId.systemDefault())
+            ctx["ModTime"] = lastTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+
+            val projectCountingService = ApplicationManager.getApplication().getService(GitRevisionService::class.java)
+            ctx["GitHash"] = projectCountingService?.getRevision(project, file) ?: ""
 
             val tmpl = SettingsState.loadSettingState(project).codeTempletReview
             val gene = Parser.parse(tmpl)

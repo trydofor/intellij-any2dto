@@ -89,9 +89,11 @@ class SqlVisitorsTest {
             from table1 as t1, table2 as t2 , table3 t3 
             where t1.id = t2.id and t2.num = t3.num
         """,
-        setOf(Triple("t1", "table1", true),
+        setOf(
+            Triple("t1", "table1", true),
             Triple("t2", "table2", true),
-            Triple("t3", "table3", true)),
+            Triple("t3", "table3", true)
+        ),
         """
                 select(t1.ID, t2.CREATE_DT.as("dt"))
                 .from(t1,t2,t3)
@@ -107,8 +109,10 @@ class SqlVisitorsTest {
             from table1 as t1 join table2 as t2 
             where t1.id = t2.id
         """,
-        setOf(Triple("t1", "table1", true),
-            Triple("t2", "table2", true)),
+        setOf(
+            Triple("t1", "table1", true),
+            Triple("t2", "table2", true)
+        ),
         """
                 select(t1.ID, t2.CREATE_DT.as("dt"))
                 .from(t1).join(t2)
@@ -126,8 +130,10 @@ class SqlVisitorsTest {
             from (select id,create_dt from sys_schema_journal) as t
             where t.id >= 19
         """,
-        setOf(Triple("t1", "sys_schema_journal", false),
-            Triple("t", "t", false)),
+        setOf(
+            Triple("t1", "sys_schema_journal", false),
+            Triple("t", "t", false)
+        ),
         """
                 select(t.CREATE_DT)
                 .from(
@@ -139,7 +145,8 @@ class SqlVisitorsTest {
     // 复杂sql不建议使用jooq，使用jdbc template
     // 不保证正确，只是个人观察
     @Test
-    fun test21() =eq("""select 
+    fun test21() = eq(
+        """select 
                 t1.id P_ID, 
                 t1.ID O_ID, 
                 t2.NAME O_NAME, 

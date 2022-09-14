@@ -1,0 +1,5 @@
+<idea-plugin>
+    <extensions defaultExtensionNs="com.intellij">
+        <applicationService serviceImplementation="com.moilioncircle.intellij.any2dto.services.GitRevisionService"/>
+    </extensions>
+</idea-plugin>

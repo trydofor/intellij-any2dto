@@ -2,6 +2,12 @@
 
 # intellij-sql2dto Changelog
 
+## [1.1.5] - 2022-09-14
+
+### Changed
+
+- Code Review with Git Revision / Last Modified
+
 ## [1.1.4] - 2022-07-27
 
 ### Added
@@ -66,9 +72,7 @@
 ### Security
 
 [Unreleased]: https://plugins.jetbrains.com/plugin/15680-any2dto
-
 [1.0.0]: https://github.com/trydofor/intellij-any2dto/releases/tag/1.0.0
-
 [1.1.0]: https://github.com/trydofor/intellij-any2dto/releases/tag/1.1.0
-
 [1.1.4]: https://github.com/trydofor/intellij-any2dto/releases/tag/1.1.4
+[1.1.5]: https://github.com/trydofor/intellij-any2dto/releases/tag/1.1.5
