@@ -40,17 +40,21 @@ version = pluginVersion
 repositories {
     mavenCentral()
     jcenter()
+    maven {
+        name = "sonatype-snapshots"
+        url = uri("https://oss.sonatype.org/content/repositories/snapshots")
+    }
 }
 
 dependencies {
     detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.14.2")
     // dto template
-    implementation("pro.fessional", "meepo", "1.4.0") {
+    implementation("pro.fessional", "meepo", "1.4.1-SNAPSHOT") {
         // for slf4j constraint violation linkageError StaticLoggerBinder
         exclude("org.slf4j", "slf4j-api")
     }
     // sql to jooq
-    implementation("com.github.jsqlparser", "jsqlparser", "3.2")
+    implementation("com.github.jsqlparser", "jsqlparser", "4.5")
 }
 
 // Configure gradle-intellij-plugin plugin.

@@ -4,7 +4,6 @@ import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.CommonDataKeys
 import com.intellij.openapi.actionSystem.PlatformDataKeys
-import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.diagnostic.Logger
 import com.moilioncircle.intellij.any2dto.helper.IdeaUiHelper
 import com.moilioncircle.intellij.any2dto.helper.MergerHelper.copyClipboard
@@ -34,18 +33,40 @@ class Any2DtoActionReview : AnAction() {
             ctx["LineEnd"] = editor.visualToLogicalPosition(caret.selectionEndPosition).line + 1
 
             ctx["CodeCopy"] = select.trimIndent()
-            ctx["Project"] = project.name
-            if (file.canonicalPath != null && project.basePath != null) {
-                ctx["FilePath"] = file.canonicalPath!!.replace(project.basePath!!, "")
-            } else {
-                ctx["FilePath"] = file.canonicalPath ?: ""
+            val filePath =
+                if (file.canonicalPath != null && project.basePath != null) {
+                    file.canonicalPath!!.replace(project.basePath!!, "")
+                } else {
+                    file.canonicalPath ?: ""
+                }
+            ctx["ProjName"] = project.name
+            ctx["FilePath"] = filePath
+
+            // /Library/Java/JavaVirtualMachines/jdk1.8.0_241.jdk/Contents/Home/jre/lib/rt.jar!/sun/misc/URLClassPath.class
+            // /Users/trydofor/.sdkman/candidates/java/11.0.2-open/lib/src.zip!/java.base/java/net/URLClassLoader.java
+            // /Users/trydofor/.m2/repository/org/springframework/security/spring-security-core/5.6.3/spring-security-core-5.6.3.jar!/org/springframework/security/core/context/SecurityContextHolder.class
+            if (filePath.contains("\\.[^/!]+!/".toRegex())) {
+                val lof = filePath.lastIndexOf("!/")
+                ctx["FilePath"] = filePath.substring(lof + 1);
+                val prt = filePath.substring(0, lof).split("/")
+                val ver = "\\d+(\\.\\d+)+".toRegex()
+                for (i in prt.size - 1 downTo 1) {
+                    if (ver.containsMatchIn(prt[i])) {
+                        ctx["ProjName"] = if (ver.containsMatchIn(prt[i - 1])) {
+                            prt[i]
+                        } else {
+                            prt[i - 1] + '/' + prt[i]
+                        }
+                        break;
+                    }
+                }
             }
 
             val instant = Instant.ofEpochMilli(file.timeStamp)
             val lastTime = instant.atZone(ZoneId.systemDefault())
             ctx["ModTime"] = lastTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
 
-            val projectCountingService = ApplicationManager.getApplication().getService(GitRevisionService::class.java)
+            val projectCountingService = project.getService(GitRevisionService::class.java)
             ctx["GitHash"] = projectCountingService?.getRevision(project, file) ?: ""
 
             val tmpl = SettingsState.loadSettingState(project).codeTempletReview

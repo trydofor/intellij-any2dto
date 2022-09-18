@@ -1,14 +1,25 @@
 <!-- Keep a Changelog guide -> https://keepachangelog.com -->
 
-# intellij-sql2dto Changelog
+# intellij-any2dto [Changelog]
 
-## [1.1.5] - 2022-09-14
+[Changelog]: https://plugins.jetbrains.com/plugin/15680-any2dto
+[Unreleased]: https://github.com/trydofor/intellij-any2dto/issues
+[1.1.6]: https://github.com/trydofor/intellij-any2dto
+
+## [1.1.6] - 2022-09-18
+
+### Changed
+
+- update project dependencies
+- support lib code review
+
+## 1.1.5 - 2022-09-14
 
 ### Changed
 
 - Code Review with Git Revision / Last Modified
 
-## [1.1.4] - 2022-07-27
+## 1.1.4 - 2022-07-27
 
 ### Added
 
@@ -19,7 +30,7 @@
 
 - support 2019.3+ (2019.3.5/193.7288.26)
 
-## [1.1.3] - 2021-06-08
+## 1.1.3 - 2021-06-08
 
 ### Fixed
 
@@ -29,26 +40,26 @@
 
 - compatible 2021.2
 
-## [1.1.2] - 2021-05-07
+## 1.1.2 - 2021-05-07
 
 ### Added
 
 - compatible 2021.1
 
-## [1.1.1] - 2021-01-06
+## 1.1.1 - 2021-01-06
 
 ### Added
 
 - compatible 2019.2
 - meepo 1.4.0
 
-## [1.1.0] - 2021-01-01
+## 1.1.0 - 2021-01-01
 
 ### Added
 
 - mysql select sentence to jooq DSL in wings style
 
-## [1.0.0] - 2020-12-24
+## 1.0.0 - 2020-12-24
 
 ### Added
 
@@ -71,8 +82,3 @@
 
 ### Security
 
-[Unreleased]: https://plugins.jetbrains.com/plugin/15680-any2dto
-[1.0.0]: https://github.com/trydofor/intellij-any2dto/releases/tag/1.0.0
-[1.1.0]: https://github.com/trydofor/intellij-any2dto/releases/tag/1.1.0
-[1.1.4]: https://github.com/trydofor/intellij-any2dto/releases/tag/1.1.4
-[1.1.5]: https://github.com/trydofor/intellij-any2dto/releases/tag/1.1.5

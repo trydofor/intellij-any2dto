@@ -1,12 +1,14 @@
 package com.moilioncircle.intellij.any2dto.sqldsl
 
-import net.sf.jsqlparser.expression.AllComparisonExpression
+import net.sf.jsqlparser.expression.AllValue
 import net.sf.jsqlparser.expression.AnalyticExpression
 import net.sf.jsqlparser.expression.AnyComparisonExpression
+import net.sf.jsqlparser.expression.ArrayConstructor
 import net.sf.jsqlparser.expression.ArrayExpression
 import net.sf.jsqlparser.expression.CaseExpression
 import net.sf.jsqlparser.expression.CastExpression
 import net.sf.jsqlparser.expression.CollateExpression
+import net.sf.jsqlparser.expression.ConnectByRootOperator
 import net.sf.jsqlparser.expression.DateTimeLiteralExpression
 import net.sf.jsqlparser.expression.DateValue
 import net.sf.jsqlparser.expression.DoubleValue
@@ -16,7 +18,9 @@ import net.sf.jsqlparser.expression.HexValue
 import net.sf.jsqlparser.expression.IntervalExpression
 import net.sf.jsqlparser.expression.JdbcNamedParameter
 import net.sf.jsqlparser.expression.JdbcParameter
+import net.sf.jsqlparser.expression.JsonAggregateFunction
 import net.sf.jsqlparser.expression.JsonExpression
+import net.sf.jsqlparser.expression.JsonFunction
 import net.sf.jsqlparser.expression.KeepExpression
 import net.sf.jsqlparser.expression.LongValue
 import net.sf.jsqlparser.expression.MySQLGroupConcat
@@ -26,16 +30,22 @@ import net.sf.jsqlparser.expression.NullValue
 import net.sf.jsqlparser.expression.NumericBind
 import net.sf.jsqlparser.expression.OracleHierarchicalExpression
 import net.sf.jsqlparser.expression.OracleHint
+import net.sf.jsqlparser.expression.OracleNamedFunctionParameter
 import net.sf.jsqlparser.expression.Parenthesis
 import net.sf.jsqlparser.expression.RowConstructor
+import net.sf.jsqlparser.expression.RowGetExpression
 import net.sf.jsqlparser.expression.SignedExpression
 import net.sf.jsqlparser.expression.StringValue
 import net.sf.jsqlparser.expression.TimeKeyExpression
 import net.sf.jsqlparser.expression.TimeValue
 import net.sf.jsqlparser.expression.TimestampValue
+import net.sf.jsqlparser.expression.TimezoneExpression
+import net.sf.jsqlparser.expression.TryCastExpression
 import net.sf.jsqlparser.expression.UserVariable
 import net.sf.jsqlparser.expression.ValueListExpression
+import net.sf.jsqlparser.expression.VariableAssignment
 import net.sf.jsqlparser.expression.WhenClause
+import net.sf.jsqlparser.expression.XMLSerializeExpr
 import net.sf.jsqlparser.expression.operators.arithmetic.Addition
 import net.sf.jsqlparser.expression.operators.arithmetic.BitwiseAnd
 import net.sf.jsqlparser.expression.operators.arithmetic.BitwiseLeftShift
@@ -50,15 +60,18 @@ import net.sf.jsqlparser.expression.operators.arithmetic.Multiplication
 import net.sf.jsqlparser.expression.operators.arithmetic.Subtraction
 import net.sf.jsqlparser.expression.operators.conditional.AndExpression
 import net.sf.jsqlparser.expression.operators.conditional.OrExpression
+import net.sf.jsqlparser.expression.operators.conditional.XorExpression
 import net.sf.jsqlparser.expression.operators.relational.Between
 import net.sf.jsqlparser.expression.operators.relational.EqualsTo
 import net.sf.jsqlparser.expression.operators.relational.ExistsExpression
 import net.sf.jsqlparser.expression.operators.relational.ExpressionList
 import net.sf.jsqlparser.expression.operators.relational.FullTextSearch
+import net.sf.jsqlparser.expression.operators.relational.GeometryDistance
 import net.sf.jsqlparser.expression.operators.relational.GreaterThan
 import net.sf.jsqlparser.expression.operators.relational.GreaterThanEquals
 import net.sf.jsqlparser.expression.operators.relational.InExpression
 import net.sf.jsqlparser.expression.operators.relational.IsBooleanExpression
+import net.sf.jsqlparser.expression.operators.relational.IsDistinctExpression
 import net.sf.jsqlparser.expression.operators.relational.IsNullExpression
 import net.sf.jsqlparser.expression.operators.relational.ItemsListVisitor
 import net.sf.jsqlparser.expression.operators.relational.JsonOperator
@@ -81,18 +94,29 @@ import net.sf.jsqlparser.statement.CreateFunctionalStatement
 import net.sf.jsqlparser.statement.DeclareStatement
 import net.sf.jsqlparser.statement.DescribeStatement
 import net.sf.jsqlparser.statement.ExplainStatement
+import net.sf.jsqlparser.statement.IfElseStatement
+import net.sf.jsqlparser.statement.PurgeStatement
+import net.sf.jsqlparser.statement.ResetStatement
+import net.sf.jsqlparser.statement.RollbackStatement
+import net.sf.jsqlparser.statement.SavepointStatement
 import net.sf.jsqlparser.statement.SetStatement
 import net.sf.jsqlparser.statement.ShowColumnsStatement
 import net.sf.jsqlparser.statement.ShowStatement
 import net.sf.jsqlparser.statement.StatementVisitor
 import net.sf.jsqlparser.statement.Statements
+import net.sf.jsqlparser.statement.UnsupportedStatement
 import net.sf.jsqlparser.statement.UseStatement
 import net.sf.jsqlparser.statement.alter.Alter
+import net.sf.jsqlparser.statement.alter.AlterSession
+import net.sf.jsqlparser.statement.alter.AlterSystemStatement
+import net.sf.jsqlparser.statement.alter.RenameTableStatement
 import net.sf.jsqlparser.statement.alter.sequence.AlterSequence
+import net.sf.jsqlparser.statement.analyze.Analyze
 import net.sf.jsqlparser.statement.comment.Comment
 import net.sf.jsqlparser.statement.create.index.CreateIndex
 import net.sf.jsqlparser.statement.create.schema.CreateSchema
 import net.sf.jsqlparser.statement.create.sequence.CreateSequence
+import net.sf.jsqlparser.statement.create.synonym.CreateSynonym
 import net.sf.jsqlparser.statement.create.table.CreateTable
 import net.sf.jsqlparser.statement.create.view.AlterView
 import net.sf.jsqlparser.statement.create.view.CreateView
@@ -122,6 +146,7 @@ import net.sf.jsqlparser.statement.select.SubSelect
 import net.sf.jsqlparser.statement.select.TableFunction
 import net.sf.jsqlparser.statement.select.ValuesList
 import net.sf.jsqlparser.statement.select.WithItem
+import net.sf.jsqlparser.statement.show.ShowTablesStatement
 import net.sf.jsqlparser.statement.truncate.Truncate
 import net.sf.jsqlparser.statement.update.Update
 import net.sf.jsqlparser.statement.upsert.Upsert
@@ -173,6 +198,7 @@ class SqlVisitors(col: String) {
                     }
                     una[ref] = k
                 }
+
                 else -> set.add(Triple(ref, inf.first, inf.second))
             }
         }
@@ -287,18 +313,19 @@ class SqlVisitors(col: String) {
             }
         }
         join.rightItem.accept(vztFromItem)
-        if (join.onExpression != null) {
+        for (ons in join.onExpressions) {
             buff.append(")\n.on(")
-            join.onExpression.accept(vztExpression)
+            ons.accept(vztExpression)
         }
+
         buff.append(")")
     }
 
     private val vztStatement = object : StatementVisitor {
-        override fun visit(comment: Comment) {
-            buff.append("\n// ${comment.comment} \n")
-        }
-
+        override fun visit(analyze: Analyze?) = unImpl("StatementVisitor", analyze)
+        override fun visit(savepointStatement: SavepointStatement?) = unImpl("StatementVisitor", savepointStatement)
+        override fun visit(rollbackStatement: RollbackStatement?) = unImpl("StatementVisitor", rollbackStatement)
+        override fun visit(comment: Comment) = unImpl("StatementVisitor", comment)
         override fun visit(commit: Commit?) = unImpl("StatementVisitor", commit)
         override fun visit(delete: Delete?) = unImpl("StatementVisitor", delete)
         override fun visit(update: Update?) = unImpl("StatementVisitor", update)
@@ -315,7 +342,9 @@ class SqlVisitors(col: String) {
         override fun visit(stmts: Statements?) = unImpl("StatementVisitor", stmts)
         override fun visit(execute: Execute?) = unImpl("StatementVisitor", execute)
         override fun visit(set: SetStatement?) = unImpl("StatementVisitor", set)
+        override fun visit(reset: ResetStatement?) = unImpl("StatementVisitor", reset)
         override fun visit(showColumns: ShowColumnsStatement?) = unImpl("StatementVisitor", showColumns)
+        override fun visit(showTables: ShowTablesStatement?) = unImpl("StatementVisitor", showTables)
         override fun visit(merge: Merge?) = unImpl("StatementVisitor", merge)
         override fun visit(select: Select) {
             select.selectBody?.accept(vztSelect)
@@ -334,6 +363,19 @@ class SqlVisitors(col: String) {
         override fun visit(alterSequence: AlterSequence?) = unImpl("StatementVisitor", alterSequence)
         override fun visit(createFunctionalStatement: CreateFunctionalStatement?) =
             unImpl("StatementVisitor", createFunctionalStatement)
+
+        override fun visit(createSynonym: CreateSynonym?) = unImpl("StatementVisitor", createSynonym)
+        override fun visit(alterSession: AlterSession?) = unImpl("StatementVisitor", alterSession)
+        override fun visit(aThis: IfElseStatement?) = unImpl("StatementVisitor", aThis)
+        override fun visit(renameTableStatement: RenameTableStatement?) =
+            unImpl("StatementVisitor", renameTableStatement)
+
+        override fun visit(purgeStatement: PurgeStatement?) = unImpl("StatementVisitor", purgeStatement)
+        override fun visit(alterSystemStatement: AlterSystemStatement?) =
+            unImpl("StatementVisitor", alterSystemStatement)
+
+        override fun visit(unsupportedStatement: UnsupportedStatement?) =
+            unImpl("StatementVisitor", unsupportedStatement)
     }
 
     private val vztSelect = object : SelectVisitor {
@@ -415,6 +457,7 @@ class SqlVisitors(col: String) {
     private val vztExpression = object : ExpressionVisitor {
         val df19 = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
         val tm10 = DateTimeFormatter.ofPattern("HH:mm:ss")
+
         override fun visit(bitwiseRightShift: BitwiseRightShift?) = unImpl("ExpressionVisitor", bitwiseRightShift)
         override fun visit(bitwiseLeftShift: BitwiseLeftShift?) = unImpl("ExpressionVisitor", bitwiseLeftShift)
         override fun visit(nullValue: NullValue?) {
@@ -520,6 +563,8 @@ class SqlVisitors(col: String) {
             buff.append(")")
         }
 
+        override fun visit(orExpression: XorExpression?) = unImpl("ExpressionVisitor", orExpression)
+
         override fun visit(between: Between) {
             between.leftExpression.accept(this)
             val st = if (between.isNot) ".notBetween(" else ".between("
@@ -624,8 +669,6 @@ class SqlVisitors(col: String) {
 
         override fun visit(whenClause: WhenClause?) = unImpl("ExpressionVisitor", whenClause)
         override fun visit(existsExpression: ExistsExpression?) = unImpl("ExpressionVisitor", existsExpression)
-        override fun visit(allComparisonExpression: AllComparisonExpression?) =
-            unImpl("ExpressionVisitor", allComparisonExpression)
 
         override fun visit(anyComparisonExpression: AnyComparisonExpression?) =
             unImpl("ExpressionVisitor", anyComparisonExpression)
@@ -636,6 +679,8 @@ class SqlVisitors(col: String) {
         override fun visit(bitwiseOr: BitwiseOr?) = unImpl("ExpressionVisitor", bitwiseOr)
         override fun visit(bitwiseXor: BitwiseXor?) = unImpl("ExpressionVisitor", bitwiseXor)
         override fun visit(castExpression: CastExpression?) = unImpl("ExpressionVisitor", castExpression)
+        override fun visit(cast: TryCastExpression?) = unImpl("ExpressionVisitor", cast)
+
         override fun visit(modulo: Modulo?) = unImpl("ExpressionVisitor", modulo)
         override fun visit(analyticExpression: AnalyticExpression?) = unImpl("ExpressionVisitor", analyticExpression)
         override fun visit(extractExpression: ExtractExpression?) = unImpl("ExpressionVisitor", extractExpression)
@@ -680,6 +725,8 @@ class SqlVisitors(col: String) {
             unImpl("ExpressionVisitor", valueListExpression)
 
         override fun visit(rowConstructor: RowConstructor?) = unImpl("ExpressionVisitor", rowConstructor)
+        override fun visit(rowGetExpression: RowGetExpression?) = unImpl("ExpressionVisitor", rowGetExpression)
+
         override fun visit(oracleHint: OracleHint?) = unImpl("ExpressionVisitor", oracleHint)
         override fun visit(timeKeyExpression: TimeKeyExpression?) = unImpl("ExpressionVisitor", timeKeyExpression)
         override fun visit(dateTimeLiteralExpression: DateTimeLiteralExpression?) =
@@ -692,12 +739,29 @@ class SqlVisitors(col: String) {
             unImpl("ExpressionVisitor", similarToExpression)
 
         override fun visit(arrayExpression: ArrayExpression?) = unImpl("ExpressionVisitor", arrayExpression)
+        override fun visit(aThis: ArrayConstructor?) = unImpl("ExpressionVisitor", aThis)
+        override fun visit(aThis: VariableAssignment?) = unImpl("ExpressionVisitor", aThis)
+        override fun visit(aThis: XMLSerializeExpr?) = unImpl("ExpressionVisitor", aThis)
+        override fun visit(aThis: TimezoneExpression?) = unImpl("ExpressionVisitor", aThis)
+        override fun visit(aThis: JsonAggregateFunction?) = unImpl("ExpressionVisitor", aThis)
+        override fun visit(aThis: JsonFunction?) = unImpl("ExpressionVisitor", aThis)
+        override fun visit(aThis: ConnectByRootOperator?) = unImpl("ExpressionVisitor", aThis)
+        override fun visit(aThis: OracleNamedFunctionParameter?) = unImpl("ExpressionVisitor", aThis)
+        override fun visit(allColumns: AllColumns?) = unImpl("ExpressionVisitor", allColumns)
+        override fun visit(allTableColumns: AllTableColumns?) = unImpl("ExpressionVisitor", allTableColumns)
+        override fun visit(allValue: AllValue?) = unImpl("ExpressionVisitor", allValue)
+        override fun visit(isDistinctExpression: IsDistinctExpression?) =
+            unImpl("ExpressionVisitor", isDistinctExpression)
+
+        override fun visit(geometryDistance: GeometryDistance?) = unImpl("ExpressionVisitor", geometryDistance)
     }
 
     private fun vztSubSelect(subSelect: SubSelect) {
-        warning.add("[SubSelect should Derived table]" +
-                "(https://www.jooq.org/doc/latest/manual/" +
-                "sql-building/table-expressions/nested-selects/)")
+        warning.add(
+            "[SubSelect should Derived table]" +
+                    "(https://www.jooq.org/doc/latest/manual/" +
+                    "sql-building/table-expressions/nested-selects/)"
+        )
         subSelect.selectBody.accept(vztSelect)
         subSelect.alias?.let {
             val v = trim(it.name)
@@ -735,7 +799,7 @@ class SqlVisitors(col: String) {
             unImpl("ItemsListVisitor", namedExpressionList)
 
         override fun visit(multiExprList: MultiExpressionList) {
-            multiExprList.exprList?.forEach {
+            multiExprList.expressionLists.forEach {
                 buff.append("\n.values(")
                 it.accept(this)
                 buff.append(")")
@@ -756,7 +820,7 @@ class SqlVisitors(col: String) {
     }
 
     private val vztGroupBy: GroupByVisitor = GroupByVisitor { groupBy ->
-        groupBy.groupByExpressions?.let {
+        groupBy.groupByExpressionList.expressions.let {
             buff.append("\n.groupBy(")
             for (expr in it) {
                 expr.accept(vztExpression)

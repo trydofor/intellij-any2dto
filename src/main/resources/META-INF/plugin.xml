@@ -15,7 +15,7 @@
                              instance="com.moilioncircle.intellij.any2dto.settings.SettingConfigurable"
                              nonDefaultProject="true"
         />
-        <applicationService serviceImplementation="com.moilioncircle.intellij.any2dto.settings.SettingsState"/>
+        <projectService serviceImplementation="com.moilioncircle.intellij.any2dto.settings.SettingsState"/>
     </extensions>
 
     <actions resource-bundle="messages.Any2dtoBundle">

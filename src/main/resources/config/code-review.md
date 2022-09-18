@@ -4,18 +4,11 @@
 // RNA:USE /line2/LineEnd/
 ## file line1-line2
 
-// RNA:USE /project/Project/
+// RNA:USE /project/ProjName/
+// RNA:USE /hash/fun:see GitHash ModTime/
 // RNA:USE /filepath/FilePath/
 
-// RNA:USE /hash/GitHash/
-// RNA:USE /time/ModTime/
-
-// RNA:WHEN /yes/GitHash/bg
 project hash
-// RNA:ELSE bg
-project time
-// RNA:DONE bg
-
 filepath
 
 // RNA:USE /text/FileType/
