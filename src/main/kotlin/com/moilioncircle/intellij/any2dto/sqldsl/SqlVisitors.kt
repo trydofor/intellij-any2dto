@@ -466,7 +466,7 @@ class SqlVisitors(col: String) {
 
         override fun visit(function: net.sf.jsqlparser.expression.Function) {
             warning.add("import static org.jooq.impl.DSL.*;")
-            val v = trim(function.name.toLowerCase())
+            val v = trim(function.name.lowercase())
             buff.append("$v(")
             function.parameters.accept(vztItemsList)
             buff.append(")")
@@ -598,7 +598,7 @@ class SqlVisitors(col: String) {
         override fun visit(inExpression: InExpression) {
             inExpression.leftExpression.accept(this)
             buff.append(".in(")
-            inExpression.rightExpression.accept(this)
+            inExpression.rightItemsList.accept(vztItemsList)
             buff.append(")")
         }
 

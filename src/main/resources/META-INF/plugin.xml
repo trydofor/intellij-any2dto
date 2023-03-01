@@ -2,7 +2,7 @@
     <id>com.moilioncircle.intellij.any2dto</id>
     <name>Any2dto</name>
 
-    <vendor url="http://www.moilioncircle.com" email="trydofor@gmail.com">trydofor</vendor>
+    <vendor url="https://www.moilioncircle.com" email="trydofor@gmail.com">trydofor</vendor>
 
     <depends optional="true" config-file="any2dto-java.xml">com.intellij.modules.java</depends>
     <depends optional="true" config-file="any2dto-database.xml">com.intellij.database</depends>

@@ -194,7 +194,7 @@ Open <kbd>Preferences</kbd> > <kbd>Plugins</kbd>, and
    Redis Replicator implement Redis Replication protocol written in java. It can parse,
    filter, broadcast the RDB and AOF events in a real time manner. It also can synchronize
    redis data to your local cache or to database.
- * [moilioncircle](http://www.moilioncircle.com)
+ * [moilioncircle](https://www.moilioncircle.com)
    sharing any topic, skill to make life easier & happier.
  * [godbart](https://github.com/trydofor/godbart)
    go-db-art, a SQL-based CLI for RDBMS schema versioning & data migration

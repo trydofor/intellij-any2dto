@@ -1,7 +1,9 @@
 package com.moilioncircle.intellij.any2dto.actions
 
 import com.intellij.database.DatabaseDataKeys
+import com.intellij.database.datagrid.DataConsumer
 import com.intellij.database.datagrid.DataGrid
+import com.intellij.database.datagrid.mutating.ColumnDescriptor
 import com.intellij.database.model.basic.BasicLikeTable
 import com.intellij.database.psi.DbColumn
 import com.intellij.database.psi.DbTable
@@ -49,7 +51,12 @@ class Any2DtoActionJdbc : AnAction() {
         val sqlCol = ArrayList<ColumnInfo>()
 
         for (column in grdCol) {
-            sqlCol.add(ColumnInfo(column.name, column.typeName, column.precision, column.scale))
+            val cd = column as ColumnDescriptor
+            // compatible from 193 to 231
+            val precision = if (column is DataConsumer.Column) column.precision else 0
+            val scale = if (column is DataConsumer.Column) column.scale else 0
+            // end compatible
+            sqlCol.add(ColumnInfo(cd.name, cd.typeName!!, precision, scale))
         }
         mergeJava(sqlCol, e, "Query Result")
     }

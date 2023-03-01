@@ -28,7 +28,7 @@ class Any2DtoActionReview : AnAction() {
 
             val ctx = HashMap<String, Any>()
             ctx["FileName"] = file.name
-            ctx["FileType"] = file.fileType.name.toLowerCase()
+            ctx["FileType"] = file.fileType.name.lowercase()
             ctx["LineStart"] = caret.logicalPosition.line + 1
             ctx["LineEnd"] = editor.visualToLogicalPosition(caret.selectionEndPosition).line + 1
 

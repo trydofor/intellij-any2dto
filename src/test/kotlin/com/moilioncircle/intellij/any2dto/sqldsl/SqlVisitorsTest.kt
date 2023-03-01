@@ -120,6 +120,24 @@ class SqlVisitorsTest {
             """
     )
 
+    @Test
+    fun test07() = eq(
+        """
+            select 
+            t1.id
+            from table1 as t1
+            where t1.id in(1,2)
+        """,
+        setOf(
+            Triple("t1", "table1", true),
+        ),
+        """
+                select(t1.ID)
+                .from(t1)
+                .where(t1.ID.in(1,2))
+            """
+    )
+
     // table alias can not impl right， should use Derived table
     // https://www.jooq.org/doc/latest/manual/sql-building/table-expressions/nested-selects/
     @Test

@@ -4,9 +4,20 @@
 
 [Changelog]: https://plugins.jetbrains.com/plugin/15680-any2dto
 [Unreleased]: https://github.com/trydofor/intellij-any2dto/issues
-[1.1.6]: https://github.com/trydofor/intellij-any2dto
+[1.1.7]: https://github.com/trydofor/intellij-any2dto
 
-## [1.1.6] - 2022-09-18
+## [1.1.7] - 2023-02-28
+
+### Changed
+
+- support to 2022.3+
+- upgrade plugin template
+
+### Fixed
+
+- #1 error visiting sql IN-clause
+
+## 1.1.6 - 2022-09-18
 
 ### Changed
 
